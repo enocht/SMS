@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="personal-info-page" id="training-data-page">
+        <div class="personal-info-page-header" id="page-header">
+            <p>> <span>Personal Information</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul>
+                        <li><span>Brisk Code: <b>{{ user.teacherdetail.teacher_code }}</b></span></li>
+                        <li><span>Family Name: <b>{{ user.last_name }}</b></span></li>
+                        <li><span>Given Name(s): <b>{{ user.first_name }}</b></span></li>
+                        <li><span>Birth Date: <b>{{ user.teacherdetail.birth_date }}</b></span></li>
+{#                        <li><span>Birth Place: <b>{{ user.teacherdetail.birth_place }}</b></span></li>#}
+                        <li><span>Nationality: <b>{{ user.teacherdetail.nationality }}</b></span></li>
+                        <li><span>Sex: <b>{{ user.teacherdetail.sex }}</b></span></li>
+{#                        <li><span>Class: <b>{{ user.teacherdetail.current_class }}</b></span></li>#}
+{#                        <li><span>Dormitory: <b>{{ user.teacherdetail.dormitory }}</b></span></li>#}
+                        <li><span>National ID Card Number: <b>{{ user.teacherdetail.national_id_card_no }}</b></span></li>
+                    </ul>
+                </div>
+                <div id="personal-info-row-2" class="col-md-6">
+                    <ul>
+{#                        <li><span>Sex: <b>{{ user.teacherdetail.sex }}</b></span></li>#}
+{#                        <li><span>Mother's Name: <b>{{ user.teacherdetail.mothers_name }}</b></span></li>#}
+{#                        <li><span>Mother's Maiden Name: <b>{{ user.teacherdetail.mothers_maiden_name }}</b></span></li>#}
+{#                        <li><span>Father's Name: <b>{{ user.teacherdetail.fathers_name }}</b></span></li>#}
+{#                        <li><span>National ID Card Number: <b>{{ user.teacherdetail.national_id_card_no }}</b></span></li>#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("personal_info").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("personal_info").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+    </script>
+{% endblock %}

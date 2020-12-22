@@ -1,0 +1,604 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'admin_navbar.html' %}
+
+    <div class="personal-info-page" id="training-data-page">
+        <div class="personal-info-page-header" id="page-header">
+            <p>> <span>Modify Student</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" style="padding-bottom: 50px">
+                <div id="add-new-student-form-step-1">
+{#                    <h3 style="text-align: center">Basic Information</h3>#}
+                    <form method="GET">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="school">School</label>
+                                <select class="form-control" id="school" name="school">
+                                    {% for each in list_of_schools %}
+                                        {% if request.session.list_school == each.school_code %}
+                                            <option value="{{ each.school_code }}" selected>{{ each.school_name }}</option>
+                                        {% else %}
+                                            <option value="{{ each.school_code }}">{{ each.school_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="current-class">Class</label>
+                                <select id="current-class" class="form-control" name="current-class" required>
+                                    {% if request.session.list_class %}
+                                        <option value="{{ request.session.list_class }}" selected>
+                                            {{ request.session.list_class }}</option>
+                                    {% endif %}
+                                    <option value="JSS1">JSS1</option>
+                                    <option value="JSS2">JSS2</option>
+                                    <option value="JSS3">JSS3</option>
+                                    <option value="SS1">SS1</option>
+                                    <option value="SS2">SS2</option>
+                                    <option value="SS3">SS3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 30px">
+                            <button type="submit" class="btn" name="get-student-list">Get Student List</button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="student">Students</label>
+                                <select class="form-control" id="student" name="student">
+                                    {% for each in student_list %}
+                                        {% if student_detail_1 %}
+                                            {% for code in student_detail_1 %}
+                                                {% if code.username == each.student_code %}
+                                                    <option value="{{ each.user_id }}" selected>{{ each.student_code }}</option>
+                                                {% else %}
+                                                    <option value="{{ each.user_id }}">{{ each.student_code }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <option value="{{ each.user_id }}">{{ each.student_code }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 30px">
+                            {% if request.session.list_button %}
+                                <button type="submit" class="btn" name="get-student-details">Get Student Details</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                {% if request.session.show_modify_details %}
+                <div id="modify-student-2">
+                    <form method="GET">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="username">Username (Student Code)</label>
+                                <input type="text" class="form-control" id="username" name="username" readonly {% for each in student_detail_1 %} value="{{ each.username }}" {% endfor %} disabled>
+                            </div>
+{#                            <div class="form-group col-md-6">#}
+{#                                <label for="password">New Password</label>#}
+{#                                <input type="password" class="form-control" id="password" name="password" required>#}
+{#                            </div>#}
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="firstname">Given Names</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" {% for each in student_detail_1 %} value="{{ each.first_name }}" {% endfor %} disabled>
+                            </div>
+{#                            <div class="form-group col-md-4">#}
+{#                                <label for="other_names">Other Names</label>#}
+{#                                <input type="text" class="form-control" id="other_names" name="other_names" required>#}
+{#                            </div>#}
+                            <div class="form-group col-md-6">
+                                <label for="lastname">Last Name</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" {% for each in student_detail_1 %} value="{{ each.last_name }}" {% endfor %} disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Primary Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" {% for each in student_detail_1 %} value="{{ each.email }}" {% endfor %} disabled>
+                        </div>
+{#                    </form>#}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="school">School *</label>
+                                <select class="form-control" id="school" name="school">
+                                    {% for each in list_of_schools %}
+                                        {% for school in student_detail_2 %}
+                                            {% if school.school_code_id == each.school_code %}
+                                                <option value="{{ each.school_code }}" selected>{{ each.school_name }}</option>
+                                            {% else %}
+                                                <option value="{{ each.school_code }}">{{ each.school_name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="education-id">Education ID</label>
+                                <input type="text" class="form-control" id="education-id" name="education-id" {% for each in student_detail_2 %} value="{{ each.education_id }}" {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="fathers-name">Father's Full Name</label>
+                                <input type="text" class="form-control" id="fathers-name" name="fathers-name" {% for each in student_detail_2 %} value="{{ each.fathers_name }}" {% endfor %} disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="mothers-name">Mother's Full Name</label>
+                                <input type="text" class="form-control" id="mothers-name" name="mothers-name" {% for each in student_detail_2 %} value="{{ each.mothers_name }}" {% endfor %} disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="mothers-maiden-name">Mother's Maiden Name</label>
+                                <input type="text" class="form-control" id="mothers-maiden-name" name="mothers-maiden-name" {% for each in student_detail_2 %} value="{{ each.mothers_maiden_name }}" {% endfor %} disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="current-class">Class</label>
+                                <select id="current-class" class="form-control" name="current-class" disabled>
+                                    {% for each in student_detail_2 %}
+                                        <option value="{{ each.current_class }}" selected>{{ each.current_class }}</option>
+                                    {% endfor %}
+                                    <option value="JSS1">JSS1</option>
+                                    <option value="JSS2">JSS2</option>
+                                    <option value="JSS3">JSS3</option>
+                                    <option value="SS1">SS1</option>
+                                    <option value="SS2">SS2</option>
+                                    <option value="SS3">SS3</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="current-term">Term</label>
+                                <select id="current-term" name="current-term" class="form-control" disabled>
+                                    {% for each in student_detail_2 %}
+                                        {% if each.current_term == '1' %}
+                                            <option value="1" selected>FIRST</option>
+                                        {% else %}
+                                            <option value="1">FIRST</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for each in student_detail_2 %}
+                                        {% if each.current_term == '2' %}
+                                            <option value="2" selected>SECOND</option>
+                                        {% else %}
+                                            <option value="2">SECOND</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for each in student_detail_2 %}
+                                        {% if each.current_term == '3' %}
+                                            <option value="3" selected>THIRD</option>
+                                        {% else %}
+                                            <option value="3">THIRD</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="sex">Sex</label>
+                                <select id="sex" name="sex" class="form-control" disabled>
+                                    {% for each in student_detail_2 %}
+                                        {% if each.sex == 'M' %}
+                                            <option value="M" selected>MALE</option>
+                                        {% else %}
+                                            <option value="M">MALE</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for each in student_detail_2 %}
+                                        {% if each.sex == 'F' %}
+                                            <option value="F" selected>FEMALE</option>
+                                        {% else %}
+                                            <option value="F">FEMALE</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="birth-date">Birth Date</label>
+                                <input type="date" class="form-control" id="birth-date" name="birth-date" {% for each in student_detail_2 %} value="{{ each.birth_date }}" {% endfor %} disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="birth-place">Place of Birth</label>
+                                <input type="text" class="form-control" id="birth-place" name="birth-place" {% for each in student_detail_2 %} value="{{ each.birth_place }}" {% endfor %} disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="state-of-origin">State of Origin</label>
+                                <input type="text" class="form-control" id="state-of-origin" name="state-of-origin" {% for each in student_detail_2 %} value="{{ each.state_of_origin }}" {% endfor %} disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="email-2">Secondary Email Address</label>
+                                <input type="email" class="form-control" id="email-2" name="email-2" {% for each in student_detail_2 %} value="{{ each.email_address_2 }}" {% endfor %}>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="phone-number">Primary Phone Number *</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">+234</div>
+                                    </div>
+                                    <input type="number" name="phone-number" class="form-control" id="phone-number" minlength="10" maxlength="10" {% for each in student_detail_2 %} value="{{ each.phone_number }}" {% endfor %} disabled>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="phone-number-2">Secondary Phone Number</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">+234</div>
+                                    </div>
+                                    <input type="number" name="phone-number-2" class="form-control" minlength="10" maxlength="10" id="phone-number-2" {% for each in student_detail_2 %} value="{{ each.phone_number_2 }}" {% endfor %}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="address">Home Address</label>
+                                <input type="text" class="form-control" id="address" name="address" {% for each in student_detail_2 %} value="{{ each.address }}" {% endfor %} required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="postal-code">Postal Code</label>
+                                <input type="text" class="form-control" id="postal-code" name="postal-code" {% for each in student_detail_2 %} value="{{ each.postal_code }}" {% endfor %}>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" {% for each in student_detail_2 %} value="{{ each.city }}" {% endfor %} required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="state">State</label>
+                                <input type="text" class="form-control" id="state" name="state" {% for each in student_detail_2 %} value="{{ each.state }}" {% endfor %} required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="nationality">Nationality</label>
+                                <select name="nationality" id="nationality" class="form-control">
+                                    {% for each in student_detail_2 %}
+                                        <option value="{{ each.nationality }}" selected>{{ each.nationality }}</option>
+                                    {% endfor %}
+                                    <option value="afghan">Afghan</option>
+                                    <option value="albanian">Albanian</option>
+                                    <option value="algerian">Algerian</option>
+                                    <option value="american">American</option>
+                                    <option value="andorran">Andorran</option>
+                                    <option value="angolan">Angolan</option>
+                                    <option value="antiguans">Antiguans</option>
+                                    <option value="argentinean">Argentinean</option>
+                                    <option value="armenian">Armenian</option>
+                                  <option value="australian">Australian</option>
+                                  <option value="austrian">Austrian</option>
+                                  <option value="azerbaijani">Azerbaijani</option>
+                                  <option value="bahamian">Bahamian</option>
+                                  <option value="bahraini">Bahraini</option>
+                                  <option value="bangladeshi">Bangladeshi</option>
+                                  <option value="barbadian">Barbadian</option>
+                                  <option value="barbudans">Barbudans</option>
+                                  <option value="batswana">Batswana</option>
+                                  <option value="belarusian">Belarusian</option>
+                                  <option value="belgian">Belgian</option>
+                                  <option value="belizean">Belizean</option>
+                                  <option value="beninese">Beninese</option>
+                                  <option value="bhutanese">Bhutanese</option>
+                                  <option value="bolivian">Bolivian</option>
+                                  <option value="bosnian">Bosnian</option>
+                                  <option value="brazilian">Brazilian</option>
+                                  <option value="british">British</option>
+                                  <option value="bruneian">Bruneian</option>
+                                  <option value="bulgarian">Bulgarian</option>
+                                  <option value="burkinabe">Burkinabe</option>
+                                  <option value="burmese">Burmese</option>
+                                  <option value="burundian">Burundian</option>
+                                  <option value="cambodian">Cambodian</option>
+                                  <option value="cameroonian">Cameroonian</option>
+                                  <option value="canadian">Canadian</option>
+                                  <option value="cape verdean">Cape Verdean</option>
+                                  <option value="central african">Central African</option>
+                                  <option value="chadian">Chadian</option>
+                                  <option value="chilean">Chilean</option>
+                                  <option value="chinese">Chinese</option>
+                                  <option value="colombian">Colombian</option>
+                                  <option value="comoran">Comoran</option>
+                                  <option value="congolese">Congolese</option>
+                                  <option value="costa rican">Costa Rican</option>
+                                  <option value="croatian">Croatian</option>
+                                  <option value="cuban">Cuban</option>
+                                  <option value="cypriot">Cypriot</option>
+                                  <option value="czech">Czech</option>
+                                  <option value="danish">Danish</option>
+                                  <option value="djibouti">Djibouti</option>
+                                  <option value="dominican">Dominican</option>
+                                  <option value="dutch">Dutch</option>
+                                  <option value="east timorese">East Timorese</option>
+                                  <option value="ecuadorean">Ecuadorean</option>
+                                  <option value="egyptian">Egyptian</option>
+                                  <option value="emirian">Emirian</option>
+                                  <option value="equatorial guinean">Equatorial Guinean</option>
+                                  <option value="eritrean">Eritrean</option>
+                                  <option value="estonian">Estonian</option>
+                                  <option value="ethiopian">Ethiopian</option>
+                                  <option value="fijian">Fijian</option>
+                                  <option value="filipino">Filipino</option>
+                                  <option value="finnish">Finnish</option>
+                                  <option value="french">French</option>
+                                  <option value="gabonese">Gabonese</option>
+                                  <option value="gambian">Gambian</option>
+                                  <option value="georgian">Georgian</option>
+                                  <option value="german">German</option>
+                                  <option value="ghanaian">Ghanaian</option>
+                                  <option value="greek">Greek</option>
+                                  <option value="grenadian">Grenadian</option>
+                                  <option value="guatemalan">Guatemalan</option>
+                                  <option value="guinea-bissauan">Guinea-Bissauan</option>
+                                  <option value="guinean">Guinean</option>
+                                  <option value="guyanese">Guyanese</option>
+                                  <option value="haitian">Haitian</option>
+                                  <option value="herzegovinian">Herzegovinian</option>
+                                  <option value="honduran">Honduran</option>
+                                  <option value="hungarian">Hungarian</option>
+                                  <option value="icelander">Icelander</option>
+                                  <option value="indian">Indian</option>
+                                  <option value="indonesian">Indonesian</option>
+                                  <option value="iranian">Iranian</option>
+                                  <option value="iraqi">Iraqi</option>
+                                  <option value="irish">Irish</option>
+                                  <option value="israeli">Israeli</option>
+                                  <option value="italian">Italian</option>
+                                  <option value="ivorian">Ivorian</option>
+                                  <option value="jamaican">Jamaican</option>
+                                  <option value="japanese">Japanese</option>
+                                  <option value="jordanian">Jordanian</option>
+                                  <option value="kazakhstani">Kazakhstani</option>
+                                  <option value="kenyan">Kenyan</option>
+                                  <option value="kittian and nevisian">Kittian and Nevisian</option>
+                                  <option value="kuwaiti">Kuwaiti</option>
+                                  <option value="kyrgyz">Kyrgyz</option>
+                                  <option value="laotian">Laotian</option>
+                                  <option value="latvian">Latvian</option>
+                                  <option value="lebanese">Lebanese</option>
+                                  <option value="liberian">Liberian</option>
+                                  <option value="libyan">Libyan</option>
+                                  <option value="liechtensteiner">Liechtensteiner</option>
+                                  <option value="lithuanian">Lithuanian</option>
+                                  <option value="luxembourger">Luxembourger</option>
+                                  <option value="macedonian">Macedonian</option>
+                                  <option value="malagasy">Malagasy</option>
+                                  <option value="malawian">Malawian</option>
+                                  <option value="malaysian">Malaysian</option>
+                                  <option value="maldivan">Maldivan</option>
+                                  <option value="malian">Malian</option>
+                                  <option value="maltese">Maltese</option>
+                                  <option value="marshallese">Marshallese</option>
+                                  <option value="mauritanian">Mauritanian</option>
+                                  <option value="mauritian">Mauritian</option>
+                                  <option value="mexican">Mexican</option>
+                                  <option value="micronesian">Micronesian</option>
+                                  <option value="moldovan">Moldovan</option>
+                                  <option value="monacan">Monacan</option>
+                                  <option value="mongolian">Mongolian</option>
+                                  <option value="moroccan">Moroccan</option>
+                                  <option value="mosotho">Mosotho</option>
+                                  <option value="motswana">Motswana</option>
+                                  <option value="mozambican">Mozambican</option>
+                                  <option value="namibian">Namibian</option>
+                                  <option value="nauruan">Nauruan</option>
+                                  <option value="nepalese">Nepalese</option>
+                                  <option value="new zealander">New Zealander</option>
+                                  <option value="ni-vanuatu">Ni-Vanuatu</option>
+                                  <option value="nicaraguan">Nicaraguan</option>
+                                  <option value="nigerien">Nigerien</option>
+                                  <option value="nigerian">Nigerian</option>
+                                  <option value="north korean">North Korean</option>
+                                  <option value="northern irish">Northern Irish</option>
+                                  <option value="norwegian">Norwegian</option>
+                                  <option value="omani">Omani</option>
+                                  <option value="pakistani">Pakistani</option>
+                                  <option value="palauan">Palauan</option>
+                                  <option value="panamanian">Panamanian</option>
+                                  <option value="papua new guinean">Papua New Guinean</option>
+                                  <option value="paraguayan">Paraguayan</option>
+                                  <option value="peruvian">Peruvian</option>
+                                  <option value="polish">Polish</option>
+                                  <option value="portuguese">Portuguese</option>
+                                  <option value="qatari">Qatari</option>
+                                  <option value="romanian">Romanian</option>
+                                  <option value="russian">Russian</option>
+                                  <option value="rwandan">Rwandan</option>
+                                  <option value="saint lucian">Saint Lucian</option>
+                                  <option value="salvadoran">Salvadoran</option>
+                                  <option value="samoan">Samoan</option>
+                                  <option value="san marinese">San Marinese</option>
+                                  <option value="sao tomean">Sao Tomean</option>
+                                  <option value="saudi">Saudi</option>
+                                  <option value="scottish">Scottish</option>
+                                  <option value="senegalese">Senegalese</option>
+                                  <option value="serbian">Serbian</option>
+                                  <option value="seychellois">Seychellois</option>
+                                  <option value="sierra leonean">Sierra Leonean</option>
+                                  <option value="singaporean">Singaporean</option>
+                                  <option value="slovakian">Slovakian</option>
+                                  <option value="slovenian">Slovenian</option>
+                                  <option value="solomon islander">Solomon Islander</option>
+                                  <option value="somali">Somali</option>
+                                  <option value="south african">South African</option>
+                                  <option value="south korean">South Korean</option>
+                                  <option value="spanish">Spanish</option>
+                                  <option value="sri lankan">Sri Lankan</option>
+                                  <option value="sudanese">Sudanese</option>
+                                  <option value="surinamer">Surinamer</option>
+                                  <option value="swazi">Swazi</option>
+                                  <option value="swedish">Swedish</option>
+                                  <option value="swiss">Swiss</option>
+                                  <option value="syrian">Syrian</option>
+                                  <option value="taiwanese">Taiwanese</option>
+                                  <option value="tajik">Tajik</option>
+                                  <option value="tanzanian">Tanzanian</option>
+                                  <option value="thai">Thai</option>
+                                  <option value="togolese">Togolese</option>
+                                  <option value="tongan">Tongan</option>
+                                  <option value="trinidadian or tobagonian">Trinidadian or Tobagonian</option>
+                                  <option value="tunisian">Tunisian</option>
+                                  <option value="turkish">Turkish</option>
+                                  <option value="tuvaluan">Tuvaluan</option>
+                                  <option value="ugandan">Ugandan</option>
+                                  <option value="ukrainian">Ukrainian</option>
+                                  <option value="uruguayan">Uruguayan</option>
+                                  <option value="uzbekistani">Uzbekistani</option>
+                                  <option value="venezuelan">Venezuelan</option>
+                                  <option value="vietnamese">Vietnamese</option>
+                                  <option value="welsh">Welsh</option>
+                                  <option value="yemenite">Yemenite</option>
+                                  <option value="zambian">Zambian</option>
+                                  <option value="zimbabwean">Zimbabwean</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="date-of-admission">Date of Admission</label>
+                                <input type="date" class="form-control" id="date-of-admission" name="date-of-admission" {% for each in student_detail_2 %} value="{{ each.date_of_admission }}" {% endfor %}>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="dormitory">Dormitory</label>
+                                <input type="text" class="form-control" id="dormitory" name="dormitory" {% for each in student_detail_2 %} value="{{ each.dormitory }}" {% endfor %}>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="active-terms">No of Active Terms</label>
+                                <input type="number" class="form-control" id="active-terms" name="active-terms" min="0" max="9" {% for each in student_detail_2 %} value="{{ each.no_active_terms }}" {% endfor %} required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="terms-remaining">No of Terms Remaining</label>
+                                <input type="number" class="form-control" id="terms-remaining" name="terms-remaining" min="0" max="9" {% for each in student_detail_2 %} value="{{ each.no_terms_remaining }}" {% endfor %} required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="graduation-date">Expected Graduation Date</label>
+                                <input type="date" class="form-control" id="graduation-date" name="graduation-date" {% for each in student_detail_2 %} value="{{ each.expected_graduation }}" {% endfor %} disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="registration-number">Registration Number</label>
+                                <input type="text" class="form-control" id="registration-number" name="registration-number" {% for each in student_detail_2 %} value="{{ each.registration_number }}" {% endfor %} disabled>
+                            </div>
+                        </div>
+                        <div style="text-align: center">
+                            <button type="submit" class="btn" name="step-two">Save</button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+                <div id="add-new-student-form-step-3">
+                    <h3 style="text-align: center">Subject Registration</h3>
+                    <form method="GET">
+                        {% csrf_token %}
+                        {% if 'J' in request.session.current_class %}
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="language-subject">Select Language Subject: </label>
+                                    <select id="language-subject" class="form-control" name="language-subject" required>
+                                        <option value="Yoruba">Yoruba</option>
+                                        <option value="Igbo">Igbo</option>
+                                        <option value="Hausa">Hausa</option>
+                                    </select>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="subjects">Select Optional Subjects: </label>
+                                    <select id="subjects" class="form-control" name="subjects" multiple size="2" required>
+                                        <option>----</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Physics">Physics</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Further Mathematics">Further Mathematics</option>
+                                        <option value="Health and Physical Education">Health and Physical Education</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Technical Drawing (Applied Science)">Technical Drawing (Applied Science)</option>
+                                        <option value="Food and Nutrition">Food and Nutrition</option>
+                                        <option value="Agricultural Science">Agricultural Science</option>
+                                        <option value="Financial Account">Financial Account</option>
+                                        <option value="Book Keeping">Book Keeping</option>
+                                        <option value="Typewriting">Typewriting</option>
+                                        <option value="Office Practice">Office Practice</option>
+                                        <option value="Commerce">Commerce</option>
+                                        <option value="Data Processing">Data Processing</option>
+                                        <option value="Economics">Economics</option>
+                                        <option value="Government">Government</option>
+                                        <option value="Literature – in - English">Literature – in - English</option>
+                                        <option value="Christian Religion Knowledge">Christian Religion Knowledge</option>
+                                        <option value="Fine Art/Creative Art">Fine Art/Creative Art</option>
+                                        <option value="French">French</option>
+                                        <option value="Geography">Geography</option>
+                                        <option value="Yoruba">Yoruba</option>
+                                        <option value="Igbo">Igbo</option>
+                                        <option value="Hausa">Hausa</option>
+                                    </select>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div style="text-align: center">
+                            <button type="submit" class="btn" name="step-three">Complete Registration</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="add-new-student-form-step-4">
+                    <div id="first-chek">
+                        <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                          <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                        </svg><h3>Registration Complete</h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.admindetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("modify-student").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("modify-student").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+    </script>
+{% endblock %}

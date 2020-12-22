@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Attendance </span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Student</th>
+                            <th scope="col"><div><span>{{ attendance_dates.1 }}</span></div></th>
+                            <th scope="col"><div><span>{{ attendance_dates.2 }}</span></div></th>
+                            <th scope="col"><div><span>{{ attendance_dates.3 }}</span></div></th>
+                            <th scope="col"><div><span>{{ attendance_dates.4 }}</span></div></th>
+                            <th scope="col"><div><span>{{ attendance_dates.5 }}</span></div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form method="GET">
+                            {% csrf_token %}
+                            <button type="submit" id="attendance_btn" name="update_attendance">Update Attendance</button>
+                            {% for student in student_list %}
+                                <tr>
+                                    <th>{{ forloop.counter }}</th>
+                                    {% for each in all_user %}
+                                        {% if each.id == student.user_id %}
+                                            <td>{{ each.get_full_name }} - {{ student.student_code }}</td>
+                                            <div class="form-group col-md-6" style="display: none">
+                                                <label for="student_code">Student Code</label>
+                                                <input type="text" class="form-control" id="student_code" name="student_code" value="{{ student.user_id }}">
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                        {% if attendance_one %}
+                                            {% for stat in attendance_stats %}
+                                                {% if student.student_code == stat.student_code and attendance_dates.1 == stat.date %}
+                                                    <div class="form-group">
+                                                        {% if stat.attendance == 1 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="1">Present</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 2 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="2">Delayed</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 3 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="3">Certified Absence</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 4 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="4">Absent</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 5 %}
+                                                            <div class="form-group">
+                                                                <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                                    <option value="1">Present</option>
+                                                                    <option value="2">Delayed</option>
+                                                                    <option value="3">Certified Absence</option>
+                                                                    <option value="4">Absent</option>
+                                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                                </select>
+                                                            </div>
+                                                        {% else %}
+
+                                                        {% endif %}
+                                                    </div>
+                                                {% else %}
+
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <select name="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.1|date:'Y-m-d' }}" class="form-control" required>
+                                                    <option value="1">Present</option>
+                                                    <option value="2">Delayed</option>
+                                                    <option value="3">Certified Absence</option>
+                                                    <option value="4">Absent</option>
+                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if attendance_two %}
+                                            {% for stat in attendance_stats %}
+                                                {% if student.student_code == stat.student_code and attendance_dates.2 == stat.date %}
+                                                    <div class="form-group">
+                                                        {% if stat.attendance == 1 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="1">Present</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 2 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="2">Delayed</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 3 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="3">Certified Absence</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 4 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="4">Absent</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 5 %}
+                                                            <div class="form-group">
+                                                                <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                                    <option value="1">Present</option>
+                                                                    <option value="2">Delayed</option>
+                                                                    <option value="3">Certified Absence</option>
+                                                                    <option value="4">Absent</option>
+                                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                                </select>
+                                                            </div>
+                                                        {% else %}
+
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <select name="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.2|date:'Y-m-d' }}" class="form-control" required>
+                                                    <option value="1">Present</option>
+                                                    <option value="2">Delayed</option>
+                                                    <option value="3">Certified Absence</option>
+                                                    <option value="4">Absent</option>
+                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if attendance_three %}
+                                            {% for stat in attendance_stats %}
+                                                {% if student.student_code == stat.student_code and attendance_dates.3 == stat.date %}
+                                                    <div class="form-group">
+                                                        {% if stat.attendance == 1 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="1">Present</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 2 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="2">Delayed</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 3 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="3">Certified Absence</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 4 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="4">Absent</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 5 %}
+                                                            <div class="form-group">
+                                                                <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                                    <option value="1">Present</option>
+                                                                    <option value="2">Delayed</option>
+                                                                    <option value="3">Certified Absence</option>
+                                                                    <option value="4">Absent</option>
+                                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                                </select>
+                                                            </div>
+                                                        {% else %}
+
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <select name="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.3|date:'Y-m-d' }}" class="form-control" required>
+                                                    <option value="1">Present</option>
+                                                    <option value="2">Delayed</option>
+                                                    <option value="3">Certified Absence</option>
+                                                    <option value="4">Absent</option>
+                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if attendance_four %}
+                                            {% for stat in attendance_stats %}
+                                                {% if student.student_code == stat.student_code and attendance_dates.4 == stat.date %}
+                                                    <div class="form-group">
+                                                        {% if stat.attendance == 1 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="1">Present</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 2 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="2">Delayed</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 3 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="3">Certified Absence</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 4 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="4">Absent</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 5 %}
+                                                            <div class="form-group">
+                                                                <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                                    <option value="1">Present</option>
+                                                                    <option value="2">Delayed</option>
+                                                                    <option value="3">Certified Absence</option>
+                                                                    <option value="4">Absent</option>
+                                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                                </select>
+                                                            </div>
+                                                        {% else %}
+
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <select name="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.4|date:'Y-m-d' }}" class="form-control" required>
+                                                    <option value="1">Present</option>
+                                                    <option value="2">Delayed</option>
+                                                    <option value="3">Certified Absence</option>
+                                                    <option value="4">Absent</option>
+                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if attendance_five %}
+                                            {% for stat in attendance_stats %}
+                                                {% if student.student_code == stat.student_code and attendance_dates.5 == stat.date %}
+                                                    <div class="form-group">
+                                                        {% if stat.attendance == 1 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="1">Present</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 2 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="2">Delayed</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 3 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="3">Certified Absence</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 4 %}
+                                                            <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                                <option readonly value="4">Absent</option>
+                                                            </select>
+                                                        {% elif stat.attendance == 5 %}
+                                                            <div class="form-group">
+                                                                <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                                    <option value="1">Present</option>
+                                                                    <option value="2">Delayed</option>
+                                                                    <option value="3">Certified Absence</option>
+                                                                    <option value="4">Absent</option>
+                                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                                </select>
+                                                            </div>
+                                                        {% else %}
+
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <select name="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" id="{{ student.student_code }}_{{ attendance_dates.5|date:'Y-m-d' }}" class="form-control" required>
+                                                    <option value="1">Present</option>
+                                                    <option value="2">Delayed</option>
+                                                    <option value="3">Certified Absence</option>
+                                                    <option value="4">Absent</option>
+                                                    <option value="5" selected>Not Filled In Yet</option>
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        {#$(document).ready(function() {#}
+        {#    $('#table').DataTable();#}
+        //});
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+            document.getElementById('attendance_btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('attendance_btn').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("attendance").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("attendance").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+        }
+    </script>
+{% endblock %}

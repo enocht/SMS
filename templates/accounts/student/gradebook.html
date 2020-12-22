@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Gradebook - Class: {{ student_data.class }} Term: {{ student_data.term }} </span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div class="gradebook_filter">
+                <form method="GET">
+                    {% csrf_token %}
+                    <div class="form-group col-md-4">
+                        <label for="class_options">CLASS:</label>
+                        <select name="class_options" id="class_options" class="form-control">
+                            <option value="None">Please Select!</option>
+                            <option value="JSS1">JSS1</option>
+                            <option value="JSS2">JSS2</option>
+                            <option value="JSS3">JSS3</option>
+                            <option value="SS1">SS1</option>
+                            <option value="SS2">SS2</option>
+                            <option value="SS3">SS3</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="term_options">TERM:</label>
+                        <select name="term_options" id="term_options" class="form-control">
+                            <option value="None">Please Select!</option>
+                            <option value="1">First</option>
+                            <option value="2">Second</option>
+                            <option value="3">Third</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="form_btn">Submit</button>
+                </form>
+            </div>
+            <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Teacher</th>
+                            <th scope="col">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for each in grade_book %}
+                            <tr>
+                                <th scope="row">{{ each.subject }}</th>
+                                {% if each.grade %}
+                                    {% for teacher in teacher_details %}
+                                        {% if 'JSS' in student_details.class %}
+                                            {% if each.subject == teacher.subject_1 and student_details.class in teacher.subject_class_1 %}
+                                                {% for each_user in user_details %}
+                                                    {% if teacher.user_id == each_user.id %}
+                                                        <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                        <td>{{ each.grade }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% elif each.subject == teacher.subject_2 and student_details.class in teacher.subject_class_2 %}
+                                                {% for each_user in user_details %}
+                                                    {% if teacher.user_id == each_user.id %}
+                                                        <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                        <td>{{ each.grade }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% elif each.subject == teacher.subject_3 and student_details.class in teacher.subject_class_3 %}
+                                                {% for each_user in user_details %}
+                                                    {% if teacher.user_id == each_user.id %}
+                                                        <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                        <td>{{ each.grade }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% elif each.subject == teacher.subject_4 and student_details.class in teacher.subject_class_4 %}
+                                                {% for each_user in user_details %}
+                                                    {% if teacher.user_id == each_user.id %}
+                                                        <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                        <td>{{ each.grade }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% elif each.subject == teacher.subject_5 and student_details.class in teacher.subject_class_5 %}
+                                                {% for each_user in user_details %}
+                                                    {% if teacher.user_id == each_user.id %}
+                                                        <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                        <td>{{ each.grade }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+    {#                                            <td>--</td>#}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if each.subject == teacher.subject_1 %}
+                                                {% with teacher.subject_class_1.split as skills %}
+                                                    {% for skill in skills %}
+                                                        {% if student_details.class in skill and 'J' not in skill %}
+    {#                                                        {{ skill }}<br>#}
+                                                            {% for each_user in user_details %}
+                                                                {% if teacher.user_id == each_user.id %}
+                                                                    <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                                    <td>{{ each.grade }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% elif each.subject == teacher.subject_2 %}
+                                                {% with teacher.subject_class_2.split as skills %}
+                                                    {% for skill in skills %}
+                                                        {% if student_details.class in skill and 'J' not in skill %}
+    {#                                                        {{ skill }}<br>#}
+                                                            {% for each_user in user_details %}
+                                                                {% if teacher.user_id == each_user.id %}
+                                                                    <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                                    <td>{{ each.grade }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% elif each.subject == teacher.subject_3 %}
+                                                {% with teacher.subject_class_3.split as skills %}
+                                                    {% for skill in skills %}
+                                                        {% if student_details.class in skill and 'J' not in skill %}
+    {#                                                        {{ skill }}<br>#}
+                                                            {% for each_user in user_details %}
+                                                                {% if teacher.user_id == each_user.id %}
+                                                                    <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                                    <td>{{ each.grade }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% elif each.subject == teacher.subject_4 %}
+                                                {% with teacher.subject_class_4.split as skills %}
+                                                    {% for skill in skills %}
+                                                        {% if student_details.class in skill and 'J' not in skill %}
+    {#                                                        {{ skill }}<br>#}
+                                                            {% for each_user in user_details %}
+                                                                {% if teacher.user_id == each_user.id %}
+                                                                    <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                                    <td>{{ each.grade }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% elif each.subject == teacher.subject_5 %}
+                                                {% with teacher.subject_class_5.split as skills %}
+                                                    {% for skill in skills %}
+                                                        {% if student_details.class in skill and 'J' not in skill %}
+    {#                                                        {{ skill }}<br>#}
+                                                            {% for each_user in user_details %}
+                                                                {% if teacher.user_id == each_user.id %}
+                                                                    <td>{{ teacher.user }} - {{ each_user.get_full_name.upper }} <br> {{ each.date_grade }}</td>
+                                                                    <td>{{ each.grade }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+{#                                    <td>{{ each.teacher_code }}<br>{{ each.date_grade }}</td>#}
+{#                                    <td>{{ each.grade }}</td>#}
+                                {% else %}
+                                    <td></td>
+                                    <td></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{#            {% if request.session.empty_query == 'true' %}#}
+{#                <p style="text-align: center">No result to show for this term and class</p>#}
+{#            {% endif %}#}
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+            document.getElementById('form_btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('form_btn').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("gradebook").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('class_options').value='{{ student_data.class }}';
+                    document.getElementById('term_options').value='{{ student_data.term }}';
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("gradebook").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+        }
+    </script>
+{% endblock %}

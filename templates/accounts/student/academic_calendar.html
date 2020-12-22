@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Calendar</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" id="calendar-page">
+                <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+                <p style="text-align: center; font-size: 25px"><b>Academic Calendar - 2020/2021 Session - First Term</b></p>
+                <table class="table table-bordered" style="color: white">
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>First Term Academic Duration</td>
+                            <td>21st September - 18th December 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Resumption</td>
+                            <td>Monday 21st September, 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>First Half</td>
+                            <td>21st September - 14th November 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>National Day</td>
+                            <td>1st October 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>Eid-El-Malud</td>
+                            <td>29th October 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>Mid-Term Break</td>
+                            <td>5th & 6th November 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>Second Half</td>
+                            <td>9th November 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>World Teachers Day</td>
+                            <td>5th October 2020</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>Vacation</td>
+                            <td>21st - 31st December 2020</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Total Days in School (First Term): 61 Days</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("calendar").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("calendar").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+                num = 1;
+            }
+            window.print();
+    }
+    </script>
+{% endblock %}

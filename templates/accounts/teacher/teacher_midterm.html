@@ -1,0 +1,581 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Midterm: </span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div id="btn-top-group">
+                <button class="btn" id="btn-list-students" style="color: white; border-color: white" onclick="showListofStudents()">List of Students</button>
+                <button class="btn" id="btn-add-grade" onclick="addGrade()" style="color: white; border-color: white">Add Midterm Result</button>
+                <button class="btn" id="btn-change-grade" onclick="changeGrade()" style="color: white; border-color: white">Change Midterm Result</button>
+            </div>
+            <div id="list-of-students" style="margin-bottom: 30px">
+                <form id="create-schedule-form">
+                    {% csrf_token %}
+                    <div class="form-group col-md-4">
+                        <label for="subject">SUBJECT:</label>
+                        <select name="subject" id="subject" class="form-control" onchange="check_subjects()" required>
+                            <option value=""></option>
+                            {% if user.teacherdetail.subject_1 %}
+                                <option value="{{ user.teacherdetail.subject_1 }}">{{ user.teacherdetail.subject_1 }}</option>
+                                {% if user.teacherdetail.subject_2 %}
+                                    <option value="{{ user.teacherdetail.subject_2 }}">{{ user.teacherdetail.subject_2 }}</option>
+                                    {% if user.teacherdetail.subject_3 %}
+                                        <option value="{{ user.teacherdetail.subject_3 }}">{{ user.teacherdetail.subject_3 }}</option>
+                                        {% if user.teacherdetail.subject_4 %}
+                                            <option value="{{ user.teacherdetail.subject_4 }}">{{ user.teacherdetail.subject_4 }}</option>
+                                            {% if user.teacherdetail.subject_5 %}
+                                                <option value="{{ user.teacherdetail.subject_5 }}">{{ user.teacherdetail.subject_5 }}</option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="class">CLASS:</label>
+                        <select name="class" id="class" class="form-control" required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" id="create-schedule">List Students</button>
+                </form>
+                <p style="text-align: center">SUBJECT: {{ student_data.subject }} CLASS: {{ student_data.class }}</p>
+                <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student</th>
+                            <th scope="col">Midterm Test</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for each in grade_book %}
+                            <tr>
+                                {% for student in user_details %}
+                                    {% if each.student_code_id == student.id %}
+                                        <th scope="row">{{ student.last_name }} {{ student.first_name }}</th>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{ each.midterm_test }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div id="add-grade" style="margin-bottom: 30px">
+                <form id="create-schedule-form">
+                    {% csrf_token %}
+                    <div class="form-group col-md-4">
+                        <label for="subject_1">SUBJECT:</label>
+                        <select name="subject_1" id="subject_1" class="form-control" onchange="check_subjects_2()" required>
+                            <option value=""></option>
+                            {% if user.teacherdetail.subject_1 %}
+                                <option value="{{ user.teacherdetail.subject_1 }}">{{ user.teacherdetail.subject_1 }}</option>
+                                {% if user.teacherdetail.subject_2 %}
+                                    <option value="{{ user.teacherdetail.subject_2 }}">{{ user.teacherdetail.subject_2 }}</option>
+                                    {% if user.teacherdetail.subject_3 %}
+                                        <option value="{{ user.teacherdetail.subject_3 }}">{{ user.teacherdetail.subject_3 }}</option>
+                                        {% if user.teacherdetail.subject_4 %}
+                                            <option value="{{ user.teacherdetail.subject_4 }}">{{ user.teacherdetail.subject_4 }}</option>
+                                            {% if user.teacherdetail.subject_5 %}
+                                                <option value="{{ user.teacherdetail.subject_5 }}">{{ user.teacherdetail.subject_5 }}</option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="class_1">CLASS:</label>
+                        <select name="class_1" id="class_1" class="form-control" required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" id="create-schedule">List Students</button>
+                </form>
+                    <p style="margin-left: 13px">SUBJECT: {{ student_data.subject }} CLASS: {{ student_data.class }}</p>
+                    <form method="GET" style="margin-left: 13px">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="student_code">Student Code:</label>
+                                <select name="student_code" id="student_code" class="form-control" required>
+                                    {% if request.session.show == 'add grade' %}
+                                        {% for each in grade_book %}
+                                            {% if not each.midterm_test %}
+                                                {% for student in user_details %}
+                                                    {% if each.student_code_id == student.id %}
+                                                        <option value="{{ each.student_code_id }}">{{ student.last_name }} {{ student.first_name }}</option>
+{#                                                        <th scope="row">{{ student.last_name }} {{ student.first_name }}</th>#}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="grade">Midterm Test</label>
+                                <input type="number" name="grade" class="form-control" id="grade" required max="40" min="0">
+                            </div>
+                        </div>
+                        {% if request.session.show == 'add grade' %}
+                            <button type="submit" class="btn" style="color: white; border-color: white">Add Score</button>
+                        {% endif %}
+                    </form>
+                    {% if request.session.added %}
+                        <p style="margin-left: 13px" id="paragraph-left">{{ request.session.added }} !</p>
+                    {% endif %}
+            </div>
+            <div id="change-grade" style="margin-bottom: 30px">
+                <form id="create-schedule-form">
+                    {% csrf_token %}
+                    <div class="form-group col-md-4">
+                        <label for="subject_2">SUBJECT:</label>
+                        <select name="subject_2" id="subject_2" class="form-control" onchange="check_subjects_3()" required>
+                            <option value=""></option>
+                            {% if user.teacherdetail.subject_1 %}
+                                <option value="{{ user.teacherdetail.subject_1 }}">{{ user.teacherdetail.subject_1 }}</option>
+                                {% if user.teacherdetail.subject_2 %}
+                                    <option value="{{ user.teacherdetail.subject_2 }}">{{ user.teacherdetail.subject_2 }}</option>
+                                    {% if user.teacherdetail.subject_3 %}
+                                        <option value="{{ user.teacherdetail.subject_3 }}">{{ user.teacherdetail.subject_3 }}</option>
+                                        {% if user.teacherdetail.subject_4 %}
+                                            <option value="{{ user.teacherdetail.subject_4 }}">{{ user.teacherdetail.subject_4 }}</option>
+                                            {% if user.teacherdetail.subject_5 %}
+                                                <option value="{{ user.teacherdetail.subject_5 }}">{{ user.teacherdetail.subject_5 }}</option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="class_2">CLASS:</label>
+                        <select name="class_2" id="class_2" class="form-control" required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" id="create-schedule">List Students</button>
+                </form>
+                    <p style="margin-left: 13px">SUBJECT: {{ student_data.subject }} CLASS: {{ student_data.class }}</p>
+                    <form method="GET" style="margin-left: 13px">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="student_code_1">Student Code:</label>
+                                <select name="student_code_1" id="student_code_1" class="form-control" onchange="check_grade()" required>
+                                <option></option>
+                                {% if request.session.show == 'change grade' %}
+                                    {% for each in grade_book %}
+                                        {% if each.midterm_test %}
+                                            {% for student in user_details %}
+                                                {% if each.student_code_id == student.id %}
+                                                    <option value="{{ each.student_code_id }}">{{ student.last_name }} {{ student.first_name }}</option>
+{#                                                    <th scope="row">{{ student.last_name }} {{ student.first_name }}</th>#}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="grade_2">Test Result</label>
+                                <input type="text" name="grade_2" class="form-control" id="grade_2" readonly>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="grade_1">New Result</label>
+                                <input type="number" name="grade_1" class="form-control" id="grade_1" required max="40" min="0">
+                            </div>
+                        </div>
+                        {% if request.session.show == 'change grade' %}
+                            <button type="submit" class="btn" style="color: white; border-color: white">Change Score</button>
+                        {% endif %}
+                    </form>
+                    {% if request.session.added %}
+                        <p style="margin-left: 13px" id="paragraph-left">{{ request.session.added }} !</p>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        window.onload = function() {
+            if ('{{ request.session.show }}' === 'list of students'){
+                showListofStudents();
+            }
+            else if ('{{ request.session.show }}' === 'add grade'){
+                addGrade();
+            }
+            else if ('{{ request.session.show }}' === 'change grade'){
+                changeGrade();
+            }
+            else {
+                showListofStudents();
+            }
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+        };
+        function showListofStudents(){
+            document.getElementById("list-of-students").style.display = 'block';
+            document.getElementById('btn-list-students').style.backgroundColor = 'white';
+            document.getElementById('btn-list-students').style.color = '{{  request.user.teacherdetail.theme_color }}'
+            document.getElementById("add-grade").style.display = 'none';
+            document.getElementById('btn-add-grade').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-add-grade').style.color = 'white'
+            document.getElementById("change-grade").style.display = 'none';
+            document.getElementById('btn-change-grade').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-change-grade').style.color = 'white';
+        }
+        function addGrade(){
+            document.getElementById("add-grade").style.display = 'block';
+            document.getElementById('btn-add-grade').style.backgroundColor = 'white';
+            document.getElementById('btn-add-grade').style.color = '{{  request.user.teacherdetail.theme_color }}'
+            document.getElementById("list-of-students").style.display = 'none';
+            document.getElementById('btn-list-students').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-list-students').style.color = 'white';
+            document.getElementById("change-grade").style.display = 'none';
+            document.getElementById('btn-change-grade').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-change-grade').style.color = 'white';
+        }
+        function changeGrade(){
+            document.getElementById("change-grade").style.display = 'block';
+            document.getElementById('btn-change-grade').style.backgroundColor = 'white';
+            document.getElementById('btn-change-grade').style.color = '{{  request.user.teacherdetail.theme_color }}'
+            document.getElementById("add-grade").style.display = 'none';
+            document.getElementById('btn-add-grade').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-add-grade').style.color = 'white';
+            document.getElementById("list-of-students").style.display = 'none';
+            document.getElementById('btn-list-students').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('btn-list-students').style.color = 'white';
+        }
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("midterm").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("midterm").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+        }
+        {#alert('got here');#}
+        function clear_classes() {
+            const select = document.getElementById("class");
+            const length = select.options.length;
+            for (let i = length-1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+        }
+        function check_subjects() {
+            let option;
+            let x;
+            let i;
+            let classes;
+            const j = document.getElementById("subject");
+            const selectedValue = j.options[j.selectedIndex].value;
+            if (selectedValue === "{{ user.teacherdetail.subject_1 }}") {
+                clear_classes();
+                classes = '{{ user.teacherdetail.subject_class_1 }}';
+                classes = classes.split(',');
+                {#alert(classes[0]);#}
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_2 }}") {
+                clear_classes();
+                classes = '{{ user.teacherdetail.subject_class_2 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_3 }}") {
+                clear_classes();
+                classes = '{{ user.teacherdetail.subject_class_3 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_4 }}") {
+                clear_classes();
+                classes = '{{ user.teacherdetail.subject_class_4 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_5 }}") {
+                clear_classes();
+                classes = '{{ user.teacherdetail.subject_class_5 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else {
+                clear_classes();
+            }
+        }
+        function clear_classes_2() {
+            const select = document.getElementById("class_1");
+            const length = select.options.length;
+            for (let i = length-1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+        }
+        function check_subjects_2() {
+            let option;
+            let x;
+            let i;
+            let classes;
+            const j = document.getElementById("subject_1");
+            const selectedValue = j.options[j.selectedIndex].value;
+            if (selectedValue === "{{ user.teacherdetail.subject_1 }}") {
+                clear_classes_2();
+                classes = '{{ user.teacherdetail.subject_class_1 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_1");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_2 }}") {
+                clear_classes_2();
+                classes = '{{ user.teacherdetail.subject_class_2 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_1");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_3 }}") {
+                clear_classes_2();
+                classes = '{{ user.teacherdetail.subject_class_3 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_1");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_4 }}") {
+                clear_classes_2();
+                classes = '{{ user.teacherdetail.subject_class_4 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_1");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_5 }}") {
+                clear_classes_2();
+                classes = '{{ user.teacherdetail.subject_class_5 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_1");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else {
+                clear_classes_2();
+            }
+        }
+        function clear_classes_3() {
+            const select = document.getElementById("class_2");
+            const length = select.options.length;
+            for (let i = length-1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+        }
+        function check_subjects_3() {
+            let option;
+            let x;
+            let i;
+            let classes;
+            const j = document.getElementById("subject_2");
+            const selectedValue = j.options[j.selectedIndex].value;
+            if (selectedValue === "{{ user.teacherdetail.subject_1 }}") {
+                clear_classes_3();
+                classes = '{{ user.teacherdetail.subject_class_1 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_2");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_2 }}") {
+                clear_classes_3();
+                classes = '{{ user.teacherdetail.subject_class_2 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_2");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_3 }}") {
+                clear_classes_3();
+                classes = '{{ user.teacherdetail.subject_class_3 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_2");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_4 }}") {
+                clear_classes_3();
+                classes = '{{ user.teacherdetail.subject_class_4 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_2");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else if (selectedValue === "{{ user.teacherdetail.subject_5 }}") {
+                clear_classes_3();
+                classes = '{{ user.teacherdetail.subject_class_5 }}';
+                classes = classes.split(',');
+                if (classes.length > 0){
+                    for (i = 0; i < classes.length; i++) {
+                        x = document.getElementById("class_2");
+                        option = document.createElement("option");
+                        option.value = classes[i];
+                        option.text = classes[i];
+                        x.add(option);
+                    }
+                }
+            }
+            else {
+                clear_classes_3();
+            }
+        }
+        function check_grade() {
+            const j = document.getElementById("student_code_1");
+            const selectedValue = j.options[j.selectedIndex].value;
+            {% for each in grade_book %}
+                var temporary = '{{ each.student_code_id }}';
+                if (temporary === selectedValue){
+                    document.getElementById("grade_2").placeholder = '{{ each.midterm_test }}';
+                }
+            {% endfor %}
+        }
+    </script>
+{% endblock %}

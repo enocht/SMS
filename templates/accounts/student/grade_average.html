@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Grade Average</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Class</th>
+                            <th scope="col">Term</th>
+                            <th scope="col">No of Subjects</th>
+                            <th scope="col">Grade Total</th>
+                            <th scope="col">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{#                        {% for each in grade_average %}#}
+{#                            <tr>#}
+{#                                <th scope="row">{{ each.student_class }}</th>#}
+{#                                <td>{{ each.term }}</td>#}
+{#                                <td>{{ each.no_of_subjects }}</td>#}
+{#                                <td>{{ each.grade_total }}</td>#}
+{#                                <td>{{ each.percentage }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+                        {% if grade_average_details %}
+                            <tr>
+                                <th scope="row">{{ grade_average_details.student_class }}</th>
+                                <td>{{ grade_average_details.term }}</td>
+                                <td>{{ grade_average_details.count }}/{{ grade_average_details.total_subject_count }}</td>
+                                <td>{{ grade_average_details.total_grade }}</td>
+                                <td>{{ grade_average_details.percentage }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("grade_average").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("grade_average").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+    }
+    </script>
+{% endblock %}

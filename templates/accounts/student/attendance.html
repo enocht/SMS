@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Attendance </span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Present</th>
+                            <th scope="col">Delayed</th>
+                            <th scope="col">Certified Absence</th>
+                            <th scope="col">Absent</th>
+                            <th scope="col">Not Filled In Yet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance_stats in attendance_statistics %}
+                            <tr>
+                                <th>{{ attendance_stats.date }}</th>
+                                <td>
+                                    {% if attendance_stats.attendance == 1 %}
+                                        <div class="form-check" id="lol">
+                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if attendance_stats.attendance == 2 %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if attendance_stats.attendance == 3 %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if attendance_stats.attendance == 4 %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if attendance_stats.attendance == 5 %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        {#$(document).ready(function() {#}
+        {#    $('#table').DataTable();#}
+        //});
+        window.onload = function() {
+            {#document.getElementById('lol').style.color = 'blue';#}
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+            document.getElementById('attendance_btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('attendance_btn').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("attendance").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("attendance").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+        }
+    </script>
+{% endblock %}

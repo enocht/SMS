@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Training Data</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul>
+                        <li><span>Date of Admission: <b>{{ user.studentdetail.date_of_admission }}</b></span></li>
+                        <li><span>Expected Graduation: <b>{{ user.studentdetail.expected_graduation }}</b></span></li>
+                        <li><span>Financial Status: <b>{{ user.studentdetail.financial_status }}</b></span></li>
+                        <li><span>No of Active terms: <b>{{ user.studentdetail.no_active_terms }}</b></span></li>
+                        <li><span>No of Terms Remaining: <b>{{ user.studentdetail.no_terms_remaining }}</b></span></li>
+                        <li><span>Organizational Unit: {% for each in school_detail %} <b>{{ each.school_name }}</b> {% endfor %}</span></li>
+                        <li><span>Registration Number: <b>{{ user.studentdetail.registration_number }}</b></span></li>
+                        <li><span>Status: <b>{{ user.studentdetail.student_status }}</b></span></li>
+                    </ul>
+                </div>
+                <div id="personal-info-row-2" class="col-md-6">
+                    <ul>
+                        <li><span>Current Class: <b>{{ user.studentdetail.current_class }}</b></span></li>
+                        <li>
+                            <span>
+                                Class Teacher:
+                                {% for teacher in teacher_details %}
+                                    {% for each_user in user_details %}
+                                        {% if teacher.user_id == each_user.id %}
+                                            <b>{{ each_user.get_full_name.upper }}</b>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("training_data").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("training_data").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+    </script>
+{% endblock %}

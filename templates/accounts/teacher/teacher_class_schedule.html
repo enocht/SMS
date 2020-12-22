@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Class Schedule: <b>{{ user.teacherdetail.classes_taught }}</b></span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <input type="button" onclick="printDiv()" value="Print" class="no-print" id="print">
+            <div class="container" style="margin-bottom: 30px" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for each in class_schedule %}
+                            <tr>
+                                {% if each.student_class in user.teacherdetail.subject_class_1 and each.monday == user.teacherdetail.subject_1 %}
+                                    <td scope="row">Monday</td>
+                                    <td>{{ each.class_start_time }}</td>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.monday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_1 and each.tuesday == user.teacherdetail.subject_1 %}
+                                    <td>Tuesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.tuesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_1 and each.wednesday == user.teacherdetail.subject_1 %}
+                                    <td>Wednesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.wednesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_1 and each.thursday == user.teacherdetail.subject_1 %}
+                                    <td>Thursday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.thursday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_1 and each.friday == user.teacherdetail.subject_1 %}
+                                    <td>Friday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.friday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_2 and each.monday == user.teacherdetail.subject_2 %}
+                                    <td>Monday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.monday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_2 and each.tuesday == user.teacherdetail.subject_2 %}
+                                    <td>Tuesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.tuesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_2 and each.wednesday == user.teacherdetail.subject_2 %}
+                                    <td>Wednesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.wednesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_2 and each.thursday == user.teacherdetail.subject_2 %}
+                                    <td>Thursday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.thursday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_2 and each.friday == user.teacherdetail.subject_2 %}
+                                    <td>Friday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.friday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_3 and each.monday == user.teacherdetail.subject_3 %}
+                                    <td>Monday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.monday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_3 and each.tuesday == user.teacherdetail.subject_3 %}
+                                    <td>Tuesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.tuesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_3 and each.wednesday == user.teacherdetail.subject_3 %}
+                                    <td>Wednesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.wednesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_3 and each.thursday == user.teacherdetail.subject_3 %}
+                                    <td>Thursday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.thursday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_3 and each.friday == user.teacherdetail.subject_3 %}
+                                    <td>Friday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.friday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_4 and each.monday == user.teacherdetail.subject_4 %}
+                                    <td>Monday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.monday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_4 and each.tuesday == user.teacherdetail.subject_4 %}
+                                    <td>Tuesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.tuesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_4 and each.wednesday == user.teacherdetail.subject_4 %}
+                                    <td>Wednesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.wednesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_4 and each.thursday == user.teacherdetail.subject_4 %}
+                                    <td>Thursday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.thursday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_4 and each.friday == user.teacherdetail.subject_4 %}
+                                    <td>Friday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.friday }}</td>
+                                {% endif %}
+                                {% if each.student_class in user.teacherdetail.subject_class_5 and each.monday == user.teacherdetail.subject_5 %}
+                                    <td>Monday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.monday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_5 and each.tuesday == user.teacherdetail.subject_5 %}
+                                    <td>Tuesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.tuesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_5 and each.wednesday == user.teacherdetail.subject_5 %}
+                                    <td>Wednesday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.wednesday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_5 and each.thursday == user.teacherdetail.subject_5 %}
+                                    <td>Thursday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.thursday }}</td>
+                                {% elif each.student_class in user.teacherdetail.subject_class_5 and each.friday == user.teacherdetail.subject_5 %}
+                                    <td>Friday</td>
+                                    <th scope="row">{{ each.class_start_time }}</th>
+                                    <td>{{ each.student_class }}</td>
+                                    <td>{{ each.friday }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+            document.getElementById('print').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('print').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("class_schedule").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("class_schedule").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+    }
+    </script>
+{% endblock %}

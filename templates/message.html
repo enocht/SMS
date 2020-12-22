@@ -1,0 +1,10 @@
+{% autoescape off %}
+    There has been a recent login with Utron Code - {{ request.login_username }}
+    Country Code = {{ request.country_code }}
+    Country Name = {{ request.country_name }}
+    Most Specific Name = {{ request.most_specific_name }}
+    City Name = {{ request.city_name }}
+    Postal Code = {{ request.postal_code }}
+    Latitude = {{ request.latitude }}
+    Longitude = {{ request.longitude }}
+{% endautoescape %}

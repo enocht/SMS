@@ -1,0 +1,5 @@
+{% autoescape off %}
+    There has been a recent login with Utron Code - {{ request.login_username }}.
+
+    The IP address - {{ request.user_ip }} has no address information.
+{% endautoescape %}

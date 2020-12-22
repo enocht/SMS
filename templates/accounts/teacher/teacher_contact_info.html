@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Contact Information</span></p>
+        </div>
+        <div class="contact-info-page-body" id="contact-info-page-body">
+            <p>
+                Email Address(es):
+                {% for each in teacher_detail %}
+                    {% if each.email_address_2 %}
+                    {% else %}
+                        <button title="Add another email" class="btn" id="add_btn_email" onclick="showEmailForm()">+</button>
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <ul>
+                <li>
+                    <span>
+                        <b>{{ user.email }}</b>
+                    </span>
+                </li>
+                {% for each in teacher_detail %}
+                    {% if each.email_address_2 %}
+                        <form class="form-inline" method="GET">
+                            {% csrf_token %}
+                            <li>
+                                <span>
+                                    <input name="email_2" id="email_2" class="form-control mb-2" placeholder="{{ each.email_address_2 }}" value="{{ each.email_address_2 }}" readonly>
+                                     -
+                                </span>
+                                <button type="submit" class="btn" id="remove-btn">Remove</button>
+                            </li>
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                <div id="email_form">
+                    <li>
+                        <form method="GET" class="form-inline">
+                            {% csrf_token %}
+                            <div class="form-row align-items-center">
+                                <div class="col-auto">
+                                    <label class="sr-only" for="email">Name</label>
+                                    <input type="email" name="email" class="form-control mb-2" id="email" placeholder="name@example.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn" id="submit_btn">Add Email</button>
+                            {% if request.session.email_form_error %}
+                                <div style="margin-left: 10px">{{ request.session.email_form_error }}</div>
+                            {% endif %}
+                        </form>
+                    </li>
+                </div>
+            </ul>
+            <p>Home Address:</p>
+            <ul>
+                <li>
+                    <span>
+                        Postal Code: <b>{{ user.teacherdetail.postal_code }}</b>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        Street Address: <b>{{ user.teacherdetail.address }}</b>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        City: <b>{{ user.teacherdetail.city }}</b>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        State: <b>{{ user.teacherdetail.state }}</b>
+                    </span>
+                </li>
+            </ul>
+            <p>
+                Phone Number(s):
+                {% for each in teacher_detail %}
+                    {% if each.phone_number_2 %}
+                    {% else %}
+                        <button title="Add another phone number" class="btn" id="add_btn_phone" onclick="showPhoneNumberForm()">+</button>
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <ul>
+                <li>
+                    <span>
+                        <b>+234{{ user.teacherdetail.phone_number }}</b>
+                    </span>
+                </li>
+                {% for each in teacher_detail %}
+                    {% if each.phone_number_2 %}
+                        <form class="form-inline" method="GET">
+                            {% csrf_token %}
+                            <li>
+                                <span>
+                                    <input name="phone_2" id="phone_2" class="form-control mb-2" placeholder="+234{{ each.phone_number_2 }}" value="+234{{ each.phone_number_2 }}" readonly>
+                                     -
+                                </span>
+                                <button type="submit" class="btn" id="remove-btn">Remove</button>
+                            </li>
+                        </form>
+{#                        <li>#}
+{#                            <span>#}
+{#                                <b>+234{{ each.phone_number_2 }}</b>#}
+{#                            </span>#}
+{#                        </li>#}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                <div id="phonenumber_form">
+                    <li>
+                        <form method="GET" class="form-inline" style="margin-left: -12px">
+                            {% csrf_token %}
+                            <div class="col-auto">
+                                <label class="sr-only" for="phonenumber">Username</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">+234</div>
+                                    </div>
+                                    <input type="number" name="phonenumber" class="form-control" id="phonenumber" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn" id="submit_btn">Add Phone Number</button>
+                            {% if request.session.phone_form_error %}
+                                <div style="margin-left: 10px">{{ request.session.phone_form_error }}</div>
+                            {% endif %}
+                        </form>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            {% if request.session.phone_form_error %}
+                showPhoneNumberForm();
+            {% endif %}
+            {% if request.session.email_form_error %}
+                showEmailForm();
+            {% endif %}
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+            document.getElementById('submit_btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('submit_btn').style.borderColor = 'white';
+            document.getElementById('add_btn_email').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('add_btn_email').style.borderColor = 'white';
+            document.getElementById('add_btn_phone').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('add_btn_phone').style.borderColor = 'white';
+            document.getElementById('remove-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('remove-btn').style.borderColor = 'white';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("contact_info").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("contact_info").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function showPhoneNumberForm() {
+            if (document.getElementById('add_btn_phone').innerText === '+'){
+                document.getElementById("phonenumber_form").style.display = 'block'; // Click on the checkbox
+                document.getElementById('add_btn_phone').innerText = '-';
+            }
+            else {
+                document.getElementById("phonenumber_form").style.display = 'none'; // Click on the checkbox
+                document.getElementById('add_btn_phone').innerText = '+';
+            }
+        }
+        function showEmailForm() {
+            if (document.getElementById('add_btn_email').innerText === '+'){
+                document.getElementById("email_form").style.display = 'block'; // Click on the checkbox
+                document.getElementById('add_btn_email').innerText = '-';
+            }
+            else {
+                document.getElementById("email_form").style.display = 'none'; // Click on the checkbox
+                document.getElementById('add_btn_email').innerText = '+';
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,140 @@
+<div class="dashboard-nav-top">
+    <div class="header">
+        <a href="{% url 'admin_dashboard' %}">Utron Dashboard</a>
+        <button class="btn" id="nav-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-grid-3x3-gap-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="logout">
+        <a style="cursor: pointer" title="Settings" data-toggle="modal" data-target="#exampleModal"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"></path>
+            <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"></path>
+        </svg></a>| <span id="user">{{ user }} </span>| <a id="logout-btn-phone" title="Logout" href="{% url 'admin_logout' %}" ><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"></path>
+          <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z"></path>
+        </svg></a>
+    </div>
+</div>
+<div class="dashboard-nav-left">
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body" id="dashboard-nav-left">
+            <div class="nav-group">
+                <h6 class="nav-headers">
+                    ADD DATA
+                </h6>
+                <p class="nav-group-child"><a href="{% url 'admin_add_new_student' %}" id="new-student">New Student <span id="width-new-student"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_add_new_teacher' %}" id="new-teacher">New Teacher <span id="width-new-teacher"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_add_class_schedule' %}" id="add-class-schedule">Class Schedule <span id="width-class-schedule-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_add_payment' %}" id="add_payment">Payment <span id="width-payment-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_add_student_payment' %}" id="add_student_payment">Student Payment Record <span id="width-student-payment"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_add_textbook' %}" id="add_textbook">Textbook <span id="width-textbook-admin"> > </span></a></p>
+            </div>
+            <div class="nav-group">
+                <h6 class="nav-headers">
+                    MODIFY DATA
+                </h6>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_student' %}" id="modify-student">Student Details <span id="width-student-details"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_student_class' %}" id="modify-student-class">Student Class <span id="width-student-class"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_teacher' %}" id="modify-teacher">Teacher Details <span id="width-class-schedule-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_class_schedule' %}" id="modify-class-schedule">Class Schedule <span id="width-student-details"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_payment' %}" id="modify-payment">Payment <span id="width-payment-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_textbook' %}" id="modify-textbook">Textbook <span id="width-textbook-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_modify_subjects_taught' %}" id="modify-subjects-taught">Subjects Taught <span id="width-subjects-taught-admin"> > </span></a></p>
+                <p class="nav-group-child"><a href="{% url 'admin_reset_password' %}" id="reset-password">Reset Password <span id="width-reset-password"> > </span></a></p>
+            </div>
+{#            <div class="nav-group">#}
+{#                <h6 class="nav-headers">#}
+{#                    MODIFY DATA#}
+{#                </h6>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_student' %}" id="modify-student">Student Details <span id="width-student-details"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_student_class' %}" id="modify-student-class">Student Class <span id="width-student-class"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_teacher' %}" id="modify-teacher">Teacher Details <span id="width-class-schedule-admin"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_class_schedule' %}" id="modify-class-schedule">Class Schedule <span id="width-student-details"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_payment' %}" id="modify-payment">Payment <span id="width-payment-admin"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_textbook' %}" id="modify-textbook">Textbook <span id="width-textbook-admin"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_modify_subjects_taught' %}" id="modify-subjects-taught">Subjects Taught <span id="width-subjects-taught-admin"> > </span></a></p>#}
+{#                <p class="nav-group-child"><a href="{% url 'admin_reset_password' %}" id="reset-password">Reset Password <span id="width-reset-password"> > </span></a></p>#}
+{#            </div>#}
+         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'navbar_settings' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="theme">Choose Theme Colour: </label>
+                        <select name='theme' class="form-control" id="theme">
+                            {% if user.admindetail.theme_color == theme_color.1 %}
+                                <option value="darkgreen" selected="selected">Darkgreen</option>
+                            {% else %}
+                                <option value="darkgreen">Darkgreen</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.2 %}
+                                <option value="purple" selected="selected">Purple</option>
+                            {% else %}
+                                <option value="purple">Purple</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.3 %}
+                                <option value="royalblue" selected="selected">Royal Blue</option>
+                            {% else %}
+                                <option value="royalblue">Royal Blue</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.4 %}
+                                <option value="midnightblue" selected="selected">Midnight Blue</option>
+                            {% else %}
+                                <option value="midnightblue">Midnight Blue</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.5 %}
+                                <option value="chocolate" selected="selected">Chocolate</option>
+                            {% else %}
+                                <option value="chocolate">Chocolate</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.6 %}
+                                <option value="brown" selected="selected">Brown</option>
+                            {% else %}
+                                <option value="brown">Brown</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.7 %}
+                                <option value="darkred" selected="selected">Dark Red</option>
+                            {% else %}
+                                <option value="darkred">Dark Red</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.8 %}
+                                <option value="darkorange" selected="selected">Dark Orange</option>
+                            {% else %}
+                                <option value="darkorange">Dark Orange</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.9 %}
+                                <option value="maroon" selected="selected">Maroon</option>
+                            {% else %}
+                                <option value="maroon">Maroon</option>
+                            {% endif %}
+                            {% if user.admindetail.theme_color == theme_color.10 %}
+                                <option value="deeppink" selected="selected">Deep Pink</option>
+                            {% else %}
+                                <option value="deeppink">Deep Pink</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button style="background-color: {{  request.user.admindetail.theme_color }}" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button style="background-color: {{  request.user.admindetail.theme_color }}" type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

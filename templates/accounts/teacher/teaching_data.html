@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'teacher-navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Training Data</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="row">
+                <div class="col-6">
+                    <ul>
+                        <li><span>Date of Employment: <b>{{ user.teacherdetail.employment_start_date }}</b></span></li>
+{#                        <li><span>Class(es) Taught: <b>{{ user.teacherdetail.classes_taught }}</b></span></li>#}
+{#                        <li><span>Subject(s) Taught: <b>{{ user.teacherdetail.subjects_taught }}</b></span></li>#}
+                        <li><span>No of Active terms: <b>{{ user.teacherdetail.no_active_terms }}</b></span></li>
+{#                        <li><span>No of Terms Remaining: <b>{{ user.studentdetail.no_terms_remaining }}</b></span></li>#}
+                        <li><span>Organizational Unit: {% for each in school_detail %} <b>{{ each.school_name }}</b> {% endfor %}</span></li>
+{#                        <li><span>Registration Number: <b>{{ user.studentdetail.registration_number }}</b></span></li>#}
+                        <li><span>Status: {% if user.teacherdetail.employment_end_date %}<b>INACTIVE</b>{% else %}<b>ACTIVE</b>{% endif %}</span></li>
+                        {% if request.user.teacherdetail.class_teacher == "YES" %}
+                            <li><span>Class Teacher: <b>{{ user.teacherdetail.class_teachers_class }}</b> </span></li>
+                        {% endif %}
+                    </ul>
+                </div>
+{#                <div class="col-4">#}
+{#                    <ul>#}
+{#                        <li><span>Sex: <b>{{ user.studentdetail.sex }}</b></span></li>#}
+{#                        <li><span>Mother's Name: <b>{{ user.studentdetail.mothers_name }}</b></span></li>#}
+{#                        <li><span>Mother's Maiden Name: <b>{{ user.studentdetail.mothers_maiden_name }}</b></span></li>#}
+{#                        <li><span>Father's Name: <b>{{ user.studentdetail.fathers_name }}</b></span></li>#}
+{#                        <li><span>Education ID: <b>{{ user.studentdetail.education_id }}</b></span></li>#}
+{#                    </ul>#}
+{#                </div>#}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.teacherdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.teacherdetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("training_data").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("training_data").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+    </script>
+{% endblock %}

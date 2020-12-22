@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Sent Messages</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" id="sent-messages-page">
+                <table class="table table-hover" style="background-color: white;">
+                    <tbody>
+                        <tr>
+                            <th scope="row" style="font-size: 12px;"><input type='checkbox' class='form-control case' style="height: 15px; width: 15px" id="sent-table-checkbox" onclick="validateCheck()"></th>
+                            <td style="cursor: pointer; font-size: 12px;"></td>
+                            <td colspan="2" style="height: 5px; cursor: pointer; font-size: 12px;"></td>
+                            <td style="text-align: right; cursor: pointer; font-size: 12px;"></td>
+                        </tr>
+                        {% for each in sent_messages %}
+                            <tr class="sent-table-row" id="sent-message-{{ forloop.counter }}" onclick="getMessage(this.id);">
+                                <th scope="row" style="font-size: 12px;"><input type='checkbox' class='form-control case' style="height: 15px; width: 15px" id="sent-messages_{{ forloop.counter }}">
+                                    <input id="message_id_{{ forloop.counter }}" value="{{ each.id }}" style="display:none;">
+                                </th>
+                                <td style="cursor: pointer; font-size: 12px;">To:
+                                    {% for user in recipient %}
+                                        {% if each.recipient == user.id %}
+                                            {{ user.get_full_name }}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <input id="recipient_{{ forloop.counter }}" name="recipient_{{ forloop.counter }}" value="{{ each.recipient }}" style="display:none;">
+                                </td>
+                                <td colspan="2" style="height: 5px; cursor: pointer; font-size: 12px;">
+                                    {{ each.subject }}
+                                    <input id="subject_{{ forloop.counter }}" name="subject_{{ forloop.counter }}" value="{{ each.subject }}" style="display:none;">
+                                </td>
+                                <td class="sent-table-row-last-col" style="text-align: right; cursor: pointer;" onclick="window.open('https://www.google.com','_self');">
+                                    <svg width="2em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <title>Delete</title>
+                                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"></path>
+                                    </svg>
+                                </td>
+                                {% if each.date_time.date != today.date %}
+                                    <td class="sent-table-row-last-col-time" style="text-align: right; cursor: pointer; font-size: 12px;" >{{ each.date_time.date }}</td>
+                                    <input id="date_{{ forloop.counter }}" name="date_{{ forloop.counter }}" value="{{ each.date_time.date| date:"Y-m-d" }} {{ each.date_time.time| time:"H:i:s.u" }}" style="display:none;">
+                                {% else %}
+                                    <td class="sent-table-row-last-col-time" style="text-align: right; cursor: pointer; font-size: 12px;">{{ each.date_time.time }}</td>
+                                    <input id="time_{{ forloop.counter }}" name="date_{{ forloop.counter }}" value="{{ each.date_time.date| date:"Y-m-d" }} {{ each.date_time.time| time:"H:i:s.u" }}" style="display:none;">
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+            <div class="container" id="sent-messages-page-2">
+                <svg onclick="switchMessageDisplay()" style="cursor: pointer" width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
+                </svg>
+                <div class="container" id="message-block">
+                    <h5 id="message-subject"></h5>
+                    <h5 id="message-recipient"></h5>
+                    <p id="message-body" ></p>
+{#                    <textarea id="message-body"></textarea>#}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("sent").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("sent").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+                num = 1;
+            }
+            window.print();
+        }
+        function validateCheck() {
+            if (document.getElementById('sent-table-checkbox').checked) {
+                {#alert("checked");#}
+                {% for each in sent_messages %}
+                    document.getElementById('sent-messages_{{ forloop.counter }}').checked = true;
+                {% endfor %}
+            } else {
+                {% for each in sent_messages %}
+                    document.getElementById('sent-messages_{{ forloop.counter }}').checked = false;
+                {% endfor %}
+            }
+        }
+        function getMessage(id) {
+            let number = id.split('-');
+            number = number[2]
+            const message_id = document.getElementById('message_id_' + number).value;
+            document.getElementById('sent-messages-page').style.display = 'none';
+            document.getElementById('sent-messages-page-2').style.display = 'block';
+            {#window.open('{% url 'sent' %}','_self');#}
+            {% for message in sent_messages %}
+                if (message_id === '{{ message.id }}') {
+                    document.getElementById('message-subject').innerHTML = 'Subject: {{ message.subject }}';
+                    {#$('#message-body').html("Message: {{ message.message }}");#}
+                    {#document.getElementById('message-body').innerHTML = 'Message: {{ message.message.splitlines }}';#}
+                    var arr = "{{ message.message.splitlines  }}"
+                    alert(arr.replace('&#x27;', ''));
+                    for (let i = 0; i < arr.length; i++){
+                        {#alert(arr[i]);#}
+                    }
+                    {#alert(arr);#}
+                    {##}
+                    {#arr = arr.slice(0, arr.length -1);#}
+                    {##}
+                    {#var newText = "Read " + arr.join("<br>Read ");#}
+                    {#var output = document.getElementById('message-body');#}
+                    {##}
+                    {#output.innerHTML = newText;#}
+                }
+            {% endfor %}
+            {% for message in sent_messages %}
+                {% for users in recipient %}
+                    if (message_id === '{{ message.id }}' && '{{ users.id }}' === '{{ message.recipient }}') {
+                        document.getElementById('message-recipient').innerHTML = 'To: {{ users.get_full_name }}';
+                    }
+                {% endfor %}
+            {% endfor %}
+        }
+        function switchMessageDisplay() {
+            document.getElementById('sent-messages-page').style.display = 'block';
+            document.getElementById('sent-messages-page-2').style.display = 'none';
+            {#window.open('{% url 'sent' %}','_self');#}
+        }
+    </script>
+{% endblock %}

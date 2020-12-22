@@ -1,0 +1,1074 @@
+body, html{
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+.page-background{
+    background-image: url("tool-3131181.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.welcome_container{
+    border: 1px solid gray;
+    background-color: gray;
+    color: white;
+    min-width: 300px;
+    max-width: 600px;
+    max-height: 600px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.9;
+    padding: 25px;
+}
+.welcome_container .col-sm{
+    text-align: left;
+    left: 10%;
+}
+.welcome_container .col-sm span{
+    font-family: "American Typewriter", serif;
+}
+.welcome_container .image{
+    position: relative;
+    width: 50%;
+    cursor:pointer;
+}
+.welcome_container .image img{
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+.welcome_container .row .image:hover img {
+    opacity: 0.3;
+}
+.welcome_container .row .image:hover .overlay {
+    opacity: 1;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    border-radius: 5px;
+}
+
+.icon {
+    color: white;
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.fa-user:hover {
+    color: white;
+}
+.welcome_page_information{
+    text-align: left;
+    overflow-x: auto;
+    max-height: 200px;
+}
+.welcome_page_information p{
+    text-align: center;
+}
+.welcome_page_information li{
+    margin-top: 10px;
+}
+.welcome_page_information a{
+    color: wheat;
+}
+.login_button{
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+
+}
+.dashboard-nav-top{
+    background-color: black;
+    width: 100%;
+    height: 50px;
+    color: white;
+    /*opacity: 0.7;*/
+}
+.dashboard-nav-top .header{
+    margin-left: 15px;
+    padding-top: 5px;
+    font-size: 20px;
+    font-family: Comic Sans MS, serif;
+    float: left;
+}
+.dashboard-nav-top .header button{
+    margin-left: 30px;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+.dashboard-nav-top .header button:hover{
+    background-color: darkslategray;
+}
+.dashboard-nav-top .header a{
+    color: white;
+}
+.dashboard-nav-top .header a:hover{
+    text-decoration: none;
+    color: whitesmoke;
+}
+.logout{
+    float: right;
+    padding-top: 10px;
+    margin-right: 15px;
+    color: white;
+}
+#logout{
+    color: white;
+}
+.logout a svg{
+    font-size: 27px;
+    color: white;
+    margin-right: 5px;
+}
+.dashboard-nav-left{
+    width: 0;
+    padding-bottom: 50px;
+}
+.dashboard-nav-left .collapse .card{
+    color: white;
+    height: 95vh;
+    overflow-x: auto;
+    transition: 0.3s ease-in-out;
+}
+.dashboard-nav-left .collapse{
+    position: absolute;
+    z-index: 1;
+}
+.nav-group{
+    margin-bottom: 20px;
+}
+.nav-headers{
+    font-family: Georgia,sans-serif;
+}
+.nav-group-child{
+    margin: 13px 0 0 5px;
+    font-size: 12px;
+}
+.nav-group-child a{
+    color: white;
+    padding: 10px;
+    transition: background-color 0.3s, opacity 0.3s ease-in-out;
+    border-radius: 5px;
+}
+.nav-group-child a:hover{
+    text-decoration: none;
+    color: white;
+    background-color: grey;
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 150px;
+    opacity: 0.5;
+}
+.dashboard-welcome-page{
+    position: absolute;
+    color: white;
+    top:50%;
+    left:50%;
+    height: 80%;
+    width: 95%;
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+}
+.dashboard-welcome-page-text{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+.dashboard-home-page{
+    overflow-x: auto;
+    position: absolute;
+    min-width: 100%;
+    height: 90%;
+    top: 80px;
+}
+.dashboard-home-page-header{
+    text-align: center;
+    height: 100px;
+    width: 90%;
+    opacity: 0.7;
+    margin-left: 60px;
+    margin-right: 60px;
+    padding-top: 10px;
+    border-radius: 5px;
+    font-size: 50px;
+    color: white;
+}
+.dashboard-home-page .row{
+    height: 300px;
+}
+.dashboard-home-page .row .col{
+    opacity: 0.7;
+    padding: 0;
+    margin: 20px 5px 20px 25px ;
+    border-radius: 5px;
+    width: 25%;
+    transition: opacity 0.3s, background-color 0.3s ease-in-out;
+    color: white;
+}
+.dashboard-home-page .row .col:hover{
+    opacity: 1;
+}
+.dashboard-col-bottom{
+    bottom: 0;
+    border-top: 1px solid lightgreen;
+    position: absolute;
+    width: 100%;
+    cursor: pointer;
+    height: 60px;
+    transition: background-color 0.3s ease-in-out;
+}
+.dashboard-col-header{
+    margin: 10px 0 20px 20px;
+    font-family: Papyrus, sans-serif;
+}
+.dashboard-home-page svg{
+    padding-top: 5px;
+}
+.dashboard-col-bottom:hover{
+    background-color: darkolivegreen;
+}
+.personal-info-page{
+    overflow-x: auto;
+    position: absolute;
+    min-width: 79%;
+    max-width: 79%;
+    top: 60px;
+    left: 20%;
+    opacity: 0.7;
+    border-radius: 5px;
+}
+.personal-info-page-header{
+    border-bottom: 1px solid lightgreen;
+    top: 0;
+    position: absolute;
+    min-width: 100%;
+    cursor: pointer;
+    height: 40px;
+    color: white;
+}
+.personal-info-page-header p{
+    padding: 5px;
+    margin-left: 10px;
+}
+.personal-info-page-header p span{
+    margin-left: 30px;
+}
+.personal-info-page-body{
+    margin-top: 50px;
+    color: white;
+    min-height: 50vh;
+    max-height: 84vh;
+}
+.personal-info-page-body li{
+    margin-top: 10px;
+}
+.personal-info-page-body .table{
+    border-color: lightgreen;
+}
+.personal-info-page-body .table a{
+    color: white;
+}
+
+.contact-info-page{
+    overflow-x: auto;
+    position: absolute;
+    min-width: 79%;
+    max-width: 85%;
+    top: 60px;
+    left: 20%;
+    opacity: 0.7;
+    border-radius: 5px;
+    max-height: 90vh;
+}
+.contact-info-page-header{
+    border-bottom: 1px solid lightgreen;
+    top: 0;
+    position: absolute;
+    min-width: 100%;
+    cursor: pointer;
+    height: 40px;
+    color: white;
+}
+.contact-info-page-header p{
+    padding: 5px;
+    margin-left: 10px;
+}
+.contact-info-page-header p span{
+    margin-left: 30px;
+}
+.contact-info-page-body{
+    margin-top: 50px;
+    color: white;
+    min-height: 50vh;
+    max-height: 84vh;
+}
+.contact-info-page-body ul{
+    margin-top: -5px;
+}
+.contact-info-page-body li{
+    margin-left: 10px;
+}
+.contact-info-page-body p{
+    margin-left: 30px;
+}
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    .gradebook_filter, .gradebook_filter *
+    {
+        display: none !important;
+    }
+    .form-group, .form-group *
+    {
+        display: none !important;
+    }
+    #create-schedule, #create-schedule *
+    {
+        display: none !important;
+    }
+}
+.no-print{
+    float: right;
+    margin: 0 10px 5px 10px;
+    color: white;
+    border-color: darkolivegreen;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.gradebook_filter button{
+    margin: 0 0 10px 20px;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+}
+#attendance_btn{
+    margin: 0 0 10px 20px;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    float: right;
+}
+#contact-info-page-body #add_btn_email{
+    font-size: 10px;
+    border: 1px solid white;
+    color: white;
+}
+#contact-info-page-body #add_btn_phone{
+    font-size: 10px;
+    border: 1px solid white;
+    color: white;
+}
+#create-schedule{
+    color: white;
+    border-color: white;
+    background-color: inherit;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+#create-schedule-form{
+    color: white;
+}
+#contact-info-page-body #submit_btn{
+    color: white;
+    border-color: white;
+    margin-top: -8px;
+}
+#phonenumber_form, #email_form{
+    display: none;
+}
+#table{
+    color: white;
+    left: 5px;
+    /*position: relative;*/
+    margin-right: 10px;
+}
+#table-container{
+    min-width: 100%;
+    /*position: absolute;*/
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+#btn-top-group{
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+#list-of-students, #add-grade, #change-grade{
+    display: none;
+}
+#paragraph-left{
+    margin-left: 13px;
+}
+#add-new-student-form-step-1{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: block;
+}
+#add-new-student-form-step-1 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-student-form-step-2{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#add-new-student-form-step-2 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-student-form-step-3{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#add-new-student-form-step-3 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-student-form-step-4{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#first-chek{
+    margin-bottom: 50px;
+    text-align: center;
+    margin-top: 50px;
+}
+#first-chek h3{
+    margin-top: 20px;
+}
+#add-new-teacher-form-step-1{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 50px;
+    display: block;
+}
+#add-new-teacher-form-step-1 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-teacher-form-step-2{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#add-new-teacher-form-step-2 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-teacher-form-step-3{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#add-new-teacher-form-step-3 .btn{
+    border-color: white;
+    color: white;
+}
+#add-new-teacher-form-step-4{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#class-teacher-class-div{
+    display: none;
+}
+#modify-student-2{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: block;
+}
+#modify-student-2 .btn{
+    border-color: white;
+    color: white;
+}
+#modify-teacher-2{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+#modify-teacher-2 .btn{
+    border-color: white;
+    color: white;
+}
+#modify-successful{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+#reset-password-page .btn{
+    border-color: white;
+    color: white;
+    margin: 0;
+}
+#reset-password-page{
+    padding-bottom: 50px;
+}
+#reset-teacher-1{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#reset-teacher-1 .btn{
+    border-color: white;
+    color: white;
+}
+#reset-student-1{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+#reset-student-1 .btn{
+    border-color: white;
+    color: white;
+}
+#modify-class-schedule-details{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+#modify-class-schedule-details .btn{
+    border-color: white;
+    color: white;
+}
+#remove-btn{
+    border: 1px solid white;
+    color: white;
+}
+/*#logout-btn-phone{*/
+/*    display: none;*/
+/*}*/
+#width-personal-info{
+    margin-left: 54px;
+}
+#width-contact-info{
+    margin-left: 58px;
+}
+#width-training-data{
+    margin-left: 96px;
+}
+#width-class-schedule{
+    margin-left: 84px;
+}
+#width-grade-book{
+    margin-left: 104px;
+}
+#width-grade-average{
+    margin-left: 87px;
+}
+#width-subjects-taken{
+    margin-left: 85px;
+}
+#width-midterm{
+    margin-left: 124px;
+}
+#width-exams-taken{
+    margin-left: 98px;
+}
+#width-payment{
+    margin-left: 116px;
+}
+#width-invoices{
+    margin-left: 125px;
+}
+#width-textbook{
+    margin-left: 113px;
+}
+#width-calendar{
+    margin-left: 120px;
+}
+#width-report-card{
+    margin-left: 102px;
+}
+#width-receipts{
+    margin-left: 122px;
+}
+#width-change-password{
+    margin-left: 69px;
+}
+#width-teaching-data{
+    margin-left: 90px;
+}
+#width-subjects-taught{
+    margin-left: 80px;
+}
+#width-exam-results{
+    margin-left: 95px;
+}
+#width-new-student{
+    margin-left: 97px;
+}
+#width-new-teacher{
+    margin-left: 96px;
+}
+#width-payment-admin{
+    margin-left: 121px;
+}
+#width-class-schedule-admin{
+    margin-left: 83px;
+}
+#width-student-payment{
+    margin-left: 30px;
+}
+#width-textbook-admin{
+    margin-left: 118px;
+}
+#width-student-details{
+    margin-left: 84px;
+}
+#width-student-class{
+    margin-left: 91px;
+}
+#width-subjects-taught-admin{
+    margin-left: 78px;
+}
+#width-attendance{
+    margin-left: 106px;
+}
+#width-reset-password{
+    margin-left: 81px;
+}
+#width-transcripts{
+    margin-left: 108px;
+}
+#width-inbox{
+    margin-left: 140px;
+}
+#width-sent{
+    margin-left: 145px;
+}
+#width-compose{
+    margin-left: 117px;
+}
+#email_form #submit_btn{
+    /*margin-top: 5px;*/
+    margin-left: 15px;
+}
+#remove-btn{
+    margin-top: -8px;
+}
+.modal-footer button{
+    border-color: white;
+}
+.modal-footer button:hover{
+    border-color: white;
+}
+#compose-submit-btn{
+    margin-bottom: 50px;
+    margin-left: 515px;
+    border-color: white;
+}
+#change-password-form button{
+    margin: 0 0 10px 15px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    /*cursor: pointer;*/
+}
+.cbCell {
+    width: 25px;
+}
+.table .sent-table-row:hover{
+    background-color: grey;
+    color: white;
+}
+.table .sent-table-row-last-col{
+    display: none;
+}
+.table .sent-table-row-last-col svg{
+    transition: .2s ease-in color;
+}
+.table .sent-table-row-last-col svg:hover{
+    color: black;
+}
+/*#container:hover > #cube*/
+.table .sent-table-row:hover > .sent-table-row-last-col{
+    display: block;
+}
+.table .sent-table-row:hover > .sent-table-row-last-col-time{
+    display: none;
+}
+#sent-messages-page-2{
+    display: none;
+}
+#sent-messages-page-2 svg{
+    transition: .2s ease-in-out background-color, .2s ease-in-out padding, .2s ease-in-out border-radius;
+}
+#sent-messages-page-2 svg:hover{
+    border-radius: 10px;
+    background-color: grey;
+    padding: 5px;
+}
+#message-block{
+    margin-left: 30px;
+}
+@media screen and (max-width: 1023px) {
+    /* STYLES HERE */
+    #training-data-page{
+        left: 5px;
+        right: 5px;
+        max-width: 100%;
+    }
+    #user-name{
+        display: none;
+    }
+    #user-school{
+        display: none;
+    }
+    #nav-btn{
+        margin-left: 0;
+    }
+    #width-reset-password{
+        margin-left: 49px;
+    }
+    #width-subjects-taught-admin{
+        margin-left: 46px;
+    }
+    #width-attendance{
+        margin-left: 74px;
+    }
+    #width-student-class{
+        margin-left: 59px;
+    }
+    #width-student-details{
+        margin-left: 52px;
+    }
+    #width-textbook-admin{
+        margin-left: 86px;
+    }
+    #width-student-payment{
+        margin-left: -2px;
+    }
+    #width-transcripts{
+        margin-left: 76px;
+    }
+    #width-inbox{
+        margin-left: 108px;
+    }
+    #width-sent{
+        margin-left: 113px;
+    }
+    #width-compose{
+        margin-left: 85px;
+    }
+    #width-class-schedule-admin{
+        margin-left: 51px;
+    }
+    #width-payment-admin{
+        margin-left: 89px;
+    }
+    #width-new-teacher{
+        margin-left: 64px;
+    }
+    #width-new-student{
+        margin-left: 65px;
+    }
+    #width-teaching-data{
+        margin-left: 58px;
+    }
+    #width-subjects-taught{
+        margin-left: 48px;
+    }
+    #width-exam-results{
+        margin-left: 63px;
+    }
+    #width-personal-info{
+        margin-left: 22px;
+    }
+    #width-contact-info{
+        margin-left: 26px;
+    }
+    #width-training-data{
+        margin-left: 64px;
+    }
+    #width-class-schedule{
+        margin-left: 52px;
+    }
+    #width-grade-book{
+        margin-left: 73px;
+    }
+    #width-grade-average{
+        margin-left: 55px;
+    }
+    #width-subjects-taken{
+        margin-left: 52px;
+    }
+    #width-midterm{
+        margin-left: 91px;
+    }
+    #width-exams-taken{
+        margin-left: 66px;
+    }
+    #width-payment{
+        margin-left: 84px;
+    }
+    #width-invoices{
+        margin-left: 93px;
+    }
+    #width-textbook{
+        margin-left: 81px;
+    }
+    #width-calendar{
+        margin-left: 88px;
+    }
+    #width-report-card{
+        margin-left: 70px;
+    }
+    #width-receipts{
+        margin-left: 90px;
+    }
+    #width-change-password{
+        margin-left: 37px;
+    }
+}
+@media screen and (max-width: 413px) {
+    #nav-btn{
+        margin-left: 35px;
+    }
+    .logout svg{
+        width: 0.7em;
+        height: 0.7em;
+    }
+    .nav-group-child {
+        font-size: 10px;
+    }
+    #user{
+        /*display: none;*/
+        font-size: 13px;
+    }
+    .dashboard-nav-top .header a{
+        font-size: 15px;
+    }
+    .no-print{
+        display: none;
+    }
+    #btn-list-students, #btn-add-grade, #btn-change-grade{
+        margin-bottom: 5px;
+    }
+    #remove-btn{
+        margin-top: 0;
+    }
+    #logout{
+        display: none;
+    }
+    .welcome_page_information{
+        max-height: 150px;
+    }
+    .welcome_container .image{
+        width: 80%;
+    }
+    #index-img-header{
+        margin-left: 25%;
+    }
+    #phonenumber_form #submit_btn{
+        margin-top: 10px;
+        margin-left: 13px;
+    }
+    #width-reset-password{
+        margin-left: 50px;
+    }
+    #width-subjects-taught-admin{
+        margin-left: 48px;
+    }
+    #width-attendance{
+        margin-left: 67px;
+    }
+    #width-student-class{
+        margin-left: 59px;
+    }
+    #width-student-details{
+        margin-left: 52px;
+    }
+    #width-textbook-admin{
+        margin-left: 82px;
+    }
+    #width-student-payment{
+        margin-left: 7px;
+    }
+    #width-transcripts{
+        margin-left: 67px;
+    }
+    #width-inbox{
+        margin-left: 97px;
+    }
+    #width-sent{
+        margin-left: 102px;
+    }
+    #width-compose{
+        margin-left: 78px;
+    }
+    #width-class-schedule-admin{
+        margin-left: 52px;
+    }
+    #width-payment-admin{
+        margin-left: 85px;
+    }
+    #width-new-teacher{
+        margin-left: 64px;
+    }
+    #width-new-student{
+        margin-left: 64px;
+    }
+    #width-teaching-data{
+        margin-left: 53px;
+    }
+    #width-subjects-taught{
+        margin-left: 44px;
+    }
+    #width-exam-results{
+        margin-left: 59px;
+    }
+    #width-personal-info{
+        margin-left: 22px;
+    }
+    #width-contact-info{
+        margin-left: 26px;
+    }
+    #width-training-data{
+        margin-left: 59px;
+    }
+    #width-class-schedule{
+        margin-left: 49px;
+    }
+    #width-grade-book{
+        margin-left: 66px;
+    }
+    #width-grade-average{
+        margin-left: 51px;
+    }
+    #width-subjects-taken{
+        margin-left: 49px;
+    }
+    #width-midterm{
+        margin-left: 82px;
+    }
+    #width-exams-taken{
+        margin-left: 60px;
+    }
+    #width-payment{
+        margin-left: 76px;
+    }
+    #width-invoices{
+        margin-left: 84px;
+    }
+    #width-textbook{
+        margin-left: 73px;
+    }
+    #width-calendar{
+        margin-left: 79px;
+    }
+    #width-report-card{
+        margin-left: 63px;
+    }
+    #width-receipts{
+        margin-left: 82px;
+    }
+    #width-change-password{
+        margin-left: 37px;
+    }
+    #calendar-page{
+        padding-bottom: 100px;
+    }
+}
+@media screen and (max-width: 750px){
+    #personal-info-row-2{
+        margin-top: -20px;
+    }
+}
+@media screen and (max-width: 376px) {
+    #email_form #submit_btn{
+        margin-top: 5px;
+        margin-left: 0;
+    }
+    #user{
+        /*display: none;*/
+        font-size: 10px;
+    }
+}
+@media screen and (max-width: 320px) {
+    #user{
+        display: none;
+    }
+}
+@media screen and (min-width: 500px) and (max-width: 812px){
+    #nav-btn{
+        margin-left: 20px;
+    }
+    #training-data-page-1{
+        margin-top: 20px;
+    }
+    .personal-info-page-body{
+        max-height: 20vh;
+        /*max-height: 200px;*/
+    }
+    .contact-info-page-body{
+        max-height: 20vh;
+        /*max-height: 200px;*/
+    }
+    #phonenumber_form{
+        padding-bottom: 50px;
+    }
+    .no-print{
+        display: none;
+    }
+}

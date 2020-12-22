@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'admin_navbar.html' %}
+
+    <div class="personal-info-page" id="training-data-page">
+        <div class="personal-info-page-header" id="page-header">
+            <p>> <span>Add Class Schedule</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" style="padding-bottom: 50px">
+                <div id="add-new-teacher-form-step-1">
+                {% if request.session.success %}
+                    <div id="first-chek">
+                        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                          <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                        </svg><h3>Schedule Added</h3>
+                    </div>
+                {% endif %}
+                    <p><b>Note: All fields must be filled</b></p>
+                    {% if request.session.schedule_error %}
+                        <p><b>Class, Time and School combo already exist in the database. Please go to the modify section instead.</b></p>
+                    {% endif %}
+                    <form method="GET">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="class">Class</label>
+                                <select id="class" class="form-control" name="class" required>
+                                    <option value="JSS1">JSS1</option>
+                                    <option value="JSS2">JSS2</option>
+                                    <option value="JSS3">JSS3</option>
+                                    <option value="SS1">SS1</option>
+                                    <option value="SS2">SS2</option>
+                                    <option value="SS3">SS3</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="time">Start Time</label>
+                                <input type="time" class="form-control" id="time" name="time" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="school">School</label>
+                                <select class="form-control" id="school" name="school">
+                                    {% for each in list_of_schools %}
+                                        <option value="{{ each.school_code }}">{{ each.school_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="monday">Monday</label>
+                                <input type="text" class="form-control" id="monday" name="monday" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="tuesday">Tuesday</label>
+                                <input type="text" class="form-control" id="tuesday" name="tuesday" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="wednesday">Wednesday</label>
+                                <input type="text" class="form-control" id="wednesday" name="wednesday" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="thursday">Thursday</label>
+                                <input type="text" class="form-control" id="thursday" name="thursday" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="friday">Friday</label>
+                            <input type="text" class="form-control" id="friday" name="friday" required>
+                        </div>
+                        <div style="text-align: center">
+                            <button type="submit" class="btn" name="submit-schedule">Add Schedule</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.admindetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("add-class-schedule").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("add-class-schedule").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div>
+{#        <img src="{% static 'schoolsystemapp/tool-3131181.jpg' %}">#}
+        <div class="welcome_container">
+            <h2 style="font-family: Georgia,serif">Utron Login</h2>
+{#            <h4>Login</h4>#}
+            <div class="row">
+                <div class="col-sm" style="margin-top: 10px">
+                    <span id="index-img-header">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"></path>
+                        </svg>
+                        Student
+                    </span>
+                    <div class="image" onclick="location.href = 'accounts/student_login'">
+                        <img src="{% static 'schoolsystemapp/school-3518726_640.jpg' %}" alt="">
+                        <div class="overlay">
+                            <a class="icon" title="Student Login">
+                                <i class="fa fa-user"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm" style="margin-top: 10px">
+                    <span id="index-img-header" >
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"></path>
+                        </svg>
+                        Teacher
+                    </span>
+                    <div class="image" onclick="location.href = 'accounts/teacher_login'">
+                        <img src="{% static 'schoolsystemapp/training-3185170_640.jpg' %}" alt="">
+                        <div class="overlay">
+                            <a class="icon" title="Teacher Login">
+{#                                <img src="{% static 'schoolsystemapp/unnamed.png' %}" alt="" width="200px">#}
+                                <i class="fa fa-user"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; text-align: center">Information for New Students & Teachers</p>
+            <div class="welcome_page_information">
+{#                <p>Information for New Students & Teachers</p>#}
+                <ul>
+                    <li><span>To log in to Utron, you need to have a network ID. This consist of two things: Your username, which is the Utron code you were given at the time of registration in school. Your password, which is a combination of your surname and the last two digits of the year you were born.<br><br>For example: If your surname is 'ogbonna' and your year of birth is '2010', your password will be 'ogbonna10'.</span></li>
+                    <li><span>If you have forgotten your password, please request a password reset from your school.</span></li>
+                    <li>
+                        <span>
+                            <b>Making Payments via Utron</b><br>
+                            You can make payments like tuition fees on the Utron platform instead of visiting the bank.<br>
+                        </span>
+                    </li>
+{#                    <li><span></span></li>#}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

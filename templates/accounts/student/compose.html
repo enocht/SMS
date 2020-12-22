@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Compose New Message</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" id="calendar-page">
+{#                <p><b>New Message</b></p>#}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="recipient" class="col-sm-2 col-form-label">To:</label>
+                        <div class="col-sm-10 col-md-6">
+                            <select class="form-control form-control-sm" id="recipient" name="recipient" required>
+                                <option></option>
+                                {% for each in student_list %}
+                                    {% for student in all_student_list %}
+                                        {% if each.user_id == student.id and each.user_id != request.user.id %}
+                                            <option value="{{ each.user_id }}">{{ student.get_full_name.upper }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="subject" class="col-sm-2 col-form-label">Subject:</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" class="form-control form-control-sm" id="subject" name="subject" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="message" class="col-sm-2 col-form-label">Message:</label>
+                        <div class="col-sm-10 col-md-6">
+                            <textarea style="height:200px;" class="form-control" id="message" name="message" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="attachments" class="col-sm-2 col-form-label">Attachments:</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="file" class="form-control-file" id="attachments" name="attachments" multiple>
+                        </div>
+                    </div>
+                    <button type="submit" id="compose-submit-btn" name="send-message">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        if ('{{ request.session.message_sent_successfully }}' === 'True'){
+            alert('Message sent successfully');
+        }
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            $('textarea[name="message"]').focus().setSelectionRange(0,0);
+            document.getElementById('compose-submit-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("compose").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("compose").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+                num = 1;
+            }
+            window.print();
+    }
+    </script>
+{% endblock %}

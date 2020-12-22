@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <div class="contact-info-page" id="training-data-page">
+        <div class="contact-info-page-header" id="page-header">
+            <p>> <span>Payments </span></p>
+        </div>
+        <div class="personal-info-page-body">
+{#            <input type="button" onclick="printDiv()" value="Print" class="no-print">#}
+            <div class="container" id="table-container">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Term</th>
+                            <th scope="col">Amount(₦)</th>
+                            <th scope="col">Deadline</th>
+                            <th scope="col">Payment Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Invoice Number</th>
+                            <th scope="col">Breakdown</th>
+                            {% if not each.payment_date %}
+                                <th scope="col">Payment Link</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for each in payment_list %}
+                            <tr>
+                                <th scope="row">{{ each.name }}</th>
+                                <td>{{ each.term }}
+                                <td>{{ each.amount }}</td>
+                                <td>{{ each.deadline }}</td>
+                                {% for one in payment_details %}
+                                    {% if one.payment_code_id == each.payment_code %}
+                                        <td>{{ one.payment_date }}</td>
+                                        <td>{{ one.status }}</td>
+                                        <td>{{ one.invoice_number }}</td>
+                                        {% if each.breakdown %}
+                                            <td><a href="{{ each.breakdown.url }}" target="_blank">Click here</a></td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td></td>
+                                    {% else %}
+                                        <td></td>
+                                        <td>NOT PAID</td>
+                                        <td></td>
+                                        {% if each.breakdown %}
+                                            <td><a href="{{ each.breakdown.url }}" target="_blank">Click here</a></td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td style="text-align: center"><a href="https://paystack.com/pay/sbrgvth2sn">PAY</a></td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not payment_details %}
+                                    <td></td>
+                                    <td>NOT PAID</td>
+                                    <td></td>
+                                    {% if each.breakdown %}
+                                        <td><a href="{{ each.breakdown.url }}" target="_blank">Click here</a></td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                    <td style="text-align: center"><a href="https://paystack.com/pay/sbrgvth2sn">PAY</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>Note: <b>Online payment attracts extra charges.</b></p>
+                <p>If you choose to pay by bank transfer or bank deposit, see below for our bank account details:</p>
+                <ul>
+                    {% for each in school_detail %}
+                        <li>
+                            BANK NAME: <b>{{ each.bank_name }}</b>
+                        </li>
+                        <li>
+                            ACCOUNT NAME: <b>{{ each.account_name }}</b>
+                        </li>
+                        <li>
+                            ACCOUNT NUMBER: <b>{{ each.account_number }}</b>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.studentdetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.studentdetail.theme_color }}';#}
+
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("payment").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("payment").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function printDiv() {
+            if (num === 0){
+                document.getElementById("nav-btn").click();
+            }
+            window.print();
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'admin_navbar.html' %}
+
+    <div class="personal-info-page" id="training-data-page">
+        <div class="personal-info-page-header" id="page-header">
+            <p>> <span>Add Student Payment</span></p>
+        </div>
+        <div class="personal-info-page-body">
+            <div class="container" style="padding-bottom: 50px">
+                <div id="add-new-student-form-step-1">
+                    <form action="{% url 'admin_add_student_payment' %}" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                            <div class="form-group">
+                                <label for="school">School</label>
+                                <select class="form-control" id="school" onchange="showPaymentCodes()" name="school" required>
+                                    <option></option>
+                                    {% for each in list_of_schools %}
+                                        {% if request.session.list_school == each.school_code %}
+                                            <option value="{{ each.school_code }}" selected>{{ each.school_name }}</option>
+                                        {% else %}
+                                            <option value="{{ each.school_code }}">{{ each.school_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="payment_code">Payment Code</label>
+                                <select class="form-control" id="payment_code" name="payment_code" onchange="showStudents()" required>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="payment_date">Payment Date</label>
+                                <input type="date" class="form-control" id="payment_date" name="payment_date" placeholder="yyyy-mm-dd" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="student_code">Student Code</label>
+                                <select class="form-control" id="student_code" name="student_code" required>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="invoice_number">Invoice Number</label>
+                                <input type="text" class="form-control" id="invoice_number" name="invoice_number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="invoice">Invoice</label>
+                                <input type="file" class="form-control-file" id="invoice" name="invoice" required>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn" name="save-payment" >Save Payment</button>
+                        </div>
+                    </form>
+                    {% if request.session.add_student_payment %}
+                        <div class="container" id="modify-successful" style="margin-top: 10px">
+                            <div id="first-chek">
+                                <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                                  <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                                </svg><h3>Payment Added</h3>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            <div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('page-header').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.admindetail.theme_color }}';#}
+        };
+        let num;
+        jQuery(document).ready(function(){
+            function resizeForm(){
+                var width = (window.innerWidth > 0) ? window.innerWidth : document.documentElement.clientWidth;
+                if(width > 1023){
+                    document.getElementById("nav-btn").click(); // Click on the checkbox
+                    document.getElementById("add_student_payment").style.backgroundColor = 'grey';
+                    num = 0;
+                    document.getElementById('nav-btn').onclick = function () {
+                        if (num === 0){
+                            document.getElementById("training-data-page").style.left = '10px';
+                            document.getElementById("training-data-page").style.right = '10px';
+                            document.getElementById("training-data-page").style.maxWidth = '100%';
+                            num = 1;
+                        }
+                        else {
+                            document.getElementById("training-data-page").style.left = '20%';
+                            document.getElementById("training-data-page").style.maxWidth = '79%';
+                            num = 0;
+                        }
+                    }
+                } else {
+                    document.getElementById("add_student_payment").style.backgroundColor = 'grey';
+                }
+            }
+            window.onresize = resizeForm;
+            resizeForm();
+        });
+
+        function clear_payment_codes() {
+            const select = document.getElementById("payment_code");
+            const length = select.options.length;
+            for (let i = length-1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+        }
+        function showPaymentCodes(){
+            clear_payment_codes();
+            let option;
+            let x;
+            const j = document.getElementById("school");
+            const selectedValue = j.options[j.selectedIndex].value;
+            x = document.getElementById("payment_code");
+            option = document.createElement("option");
+            option.value = "--";
+            option.text = "--";
+            x.add(option);
+            {% for each in payment_codes %}
+                if (selectedValue === "{{ each.school_code_id }}"){
+                    x = document.getElementById("payment_code");
+                    option = document.createElement("option");
+                    option.value = "{{ each.payment_code }}";
+                    option.text = "{{ each.payment_code }}";
+                    x.add(option);
+                }
+            {% endfor %}
+        }
+        function clear_student_list() {
+            const select = document.getElementById("student_code");
+            const length = select.options.length;
+            for (let i = length-1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+        }
+        function showStudents(){
+            clear_student_list();
+            let option;
+            let x;
+            const j = document.getElementById("payment_code");
+            const selectedValue = j.options[j.selectedIndex].value;
+            const student_class = selectedValue.split('-');
+            x = document.getElementById("student_code");
+            option = document.createElement("option");
+            option.value = "--";
+            option.text = "--";
+            x.add(option);
+            {% for each in student_list %}
+                if (student_class[1] === "{{ each.current_class }}"){
+                    x = document.getElementById("student_code");
+                    option = document.createElement("option");
+                    option.value = "{{ each.user_id }}";
+                    option.text = "{{ each.student_code }}";
+                    x.add(option);
+                }
+            {% endfor %}
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'admin_navbar.html' %}
+
+    <div class="dashboard-welcome-page" id="training-data-page-1">
+        <div class="dashboard-welcome-page-text">
+            <h1>Welcome {{ user }}</h1>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('training-data-page-1').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('nav-btn').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            document.getElementById('dashboard-nav-left').style.backgroundColor = '{{  request.user.admindetail.theme_color }}';
+            {#document.getElementById('logout').style.color = '{{  request.user.admindetail.theme_color }}';#}
+        };
+    </script>
+
+{% endblock %}
